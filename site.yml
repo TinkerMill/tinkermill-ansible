@@ -1,0 +1,10 @@
+---
+# Roles common to all hosts:
+- hosts: all
+  name: All hosts
+  become: yes
+  roles:
+    - fwd-syslog
+
+# Active groups:
+- include: hq-syslog.yml
