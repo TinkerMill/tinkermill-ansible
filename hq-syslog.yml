@@ -1,0 +1,7 @@
+---
+# Syslog Receiver virtual machine:
+- name: hq-syslog
+  hosts: hq-syslog
+  become: yes
+  roles:
+    - syslog-receiver
