@@ -51,10 +51,10 @@ $PrivDropToUser syslog
 $PrivDropToGroup syslog
 
 # Define a rsyslog template based on hostname...
-$template DynaFile,"{{ syslog_receiver_remote_log_folder }}/system-%HOSTNAME%.log"
+#$template DynaFile,"{{ syslog_receiver_remote_log_folder }}/system-%HOSTNAME%.log"
 
 # ...so we can have a file per hostname:
-*.* -?DynaFile
+#*.* -?DynaFile
 
 #
 # Include all config files in /etc/rsyslog.d/
