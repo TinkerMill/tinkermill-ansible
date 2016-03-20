@@ -1,0 +1,3 @@
+---
+# defaults file for syslog-receiver
+syslog_receiver_remote_log_folder: /var/log/remote
