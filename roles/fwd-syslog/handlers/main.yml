@@ -1,0 +1,7 @@
+---
+# handlers file for fwd-syslog
+- name: Handler | Restart rsyslog
+  service: name=rsyslog state=restarted
+  tags:
+    - fwd-syslog
+    - services

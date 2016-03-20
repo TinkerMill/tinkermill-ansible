@@ -1,0 +1,4 @@
+---
+# defaults file for fwd-syslog
+# If undefined, try to send to localhost instead of no one:
+syslog_server: localhost
