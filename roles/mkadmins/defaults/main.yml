@@ -1,0 +1,29 @@
+---
+# Override any of these defaults with variables in other roles.
+#
+# Generate useful password hashes with this command on
+#   any system with the "python-passlib" package:
+#
+# $ python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
+#
+# Multiple dictionaries due to RHEL/Debian having different default
+#   administrators in sudo; might simplify by making a sudo role.
+#
+users:
+  tinkermill:
+    state: present
+    name: TinkerMill Default User
+    shell: /bin/bash
+    password: $6$rounds=40000$BZ0T/6kGy2tSzepc$.l71BiURGCgZalwQui1Gq37J65yYnwDSs2u7Itzx8XVF5sBkWMDnUMsXOwP9p8ciF71PcuqTpKOgv9HDKPyW2.
+  kso:
+    state: present
+    name: Chris Lindbergh
+    shell: /bin/bash
+    password: $6$rounds=40000$3FSkLqYlJroTn4kX$uGV8QXb7IphgT2Izckm5CouKzPj1hu4jBcaflWJNjFIsD.MTcGsjiT5AVFpSfLzlGCFWNeHrvrSyjWndB66Ps.
+rc_files:
+  - name: kso
+    group:
+    files:
+      - .bashrc
+      - .screenrc
+      - .vimrc

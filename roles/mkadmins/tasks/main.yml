@@ -1,0 +1,45 @@
+---
+# Create groups:
+- name: Task | Create groups
+  group: >
+    name="{{ item.key }}"
+    state="{{ item.value.state }}"
+  with_dict: "{{users}}"
+  tags:
+    - mkadmins
+    - users
+
+# Create users:
+- name: Task | Create users
+  user: >
+    name="{{ item.key }}"
+    state="{{ item.value.state }}"
+    group="{{ item.key }}"
+    shell="{{ item.value.shell }}"
+    password="{{ item.value.password }}"
+    comment="{{ item.value.name }}"
+    append=yes
+    update_password=on_create
+  with_dict: "{{users}}"
+  tags:
+    - mkadmins
+    - users
+
+# Copy .*rc files to users' home directories, based on the subelements
+#   defined in defaults/main.yml, and using '| default' to enable
+#   group-specific files.  Does require all .rc files to be defined,
+#   but sym-links work:
+- name: Task | Generate .*rc files
+  template: >
+    owner="{{ item.0.name }}"
+    group="{{ item.0.name }}"
+    mode=0644
+    backup=yes
+    src="{{ item.0.group | default('') }}{{ item.0.name }}{{ item.1 }}.j2"
+    dest="/home/{{ item.0.name }}/{{ item.1 }}"
+  with_subelements:
+    - "{{rc_files}}"
+    - files
+  tags:
+    - mkadmins
+    - files
