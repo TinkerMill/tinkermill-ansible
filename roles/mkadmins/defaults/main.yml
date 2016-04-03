@@ -6,9 +6,6 @@
 #
 # $ python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
 #
-# Multiple dictionaries due to RHEL/Debian having different default
-#   administrators in sudo; might simplify by making a sudo role.
-#
 mkadmins_users:
   tinkermill:
     state: present
