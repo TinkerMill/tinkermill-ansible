@@ -35,6 +35,10 @@ Simple example with one user:
           - .screenrc
           - .vimrc
 
+Generate useful password hashes with this command on any system with the "python-passlib" package:
+
+> $ python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
+
 Dependencies
 ------------
 
