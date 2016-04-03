@@ -4,7 +4,7 @@
   group: >
     name="{{ item.key }}"
     state="{{ item.value.state }}"
-  with_dict: "{{users}}"
+  with_dict: "{{mkadmins_users}}"
   tags:
     - mkadmins
     - users
@@ -20,7 +20,7 @@
     comment="{{ item.value.name }}"
     append=yes
     update_password=on_create
-  with_dict: "{{users}}"
+  with_dict: "{{mkadmins_users}}"
   tags:
     - mkadmins
     - users
@@ -38,7 +38,7 @@
     src="{{ item.0.group | default('') }}{{ item.0.name }}{{ item.1 }}.j2"
     dest="/home/{{ item.0.name }}/{{ item.1 }}"
   with_subelements:
-    - "{{rc_files}}"
+    - "{{mkadmins_rc_files}}"
     - files
   tags:
     - mkadmins

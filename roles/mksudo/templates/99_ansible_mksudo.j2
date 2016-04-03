@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 
-{% for id in users %}
+{% for id in mksudo_users %}
 {{ id }} ALL = (ALL:ALL) ALL
 Defaults:{{ id }} !requiretty
 {% endfor %}

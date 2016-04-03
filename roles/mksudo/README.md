@@ -14,7 +14,7 @@ Role Variables
 
 | Defaults | Description |
 | -------- | ----------- |
-| users    | List defining sudoers. |
+| mksudo_users    | List defining sudoers. |
 
 Override with variables at the group or host level for systems with special needs.  
 
@@ -30,7 +30,7 @@ Example Playbook
 
     - hosts: gibsons
       roles:
-         - { role: mksudo, users: acidburn,cerealkiller,crashoverride,lordnikon,phantomphreak } #HACK THE PLANET!
+         - { role: mksudo, mksudo_users: acidburn,cerealkiller,crashoverride,lordnikon,phantomphreak } #HACK THE PLANET!
 
 License
 -------

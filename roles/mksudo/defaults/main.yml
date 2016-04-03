@@ -1,6 +1,6 @@
 ---
 # defaults file for mksudo
 
-users:
+mksudo_users:
   - kso
   - tinkermill

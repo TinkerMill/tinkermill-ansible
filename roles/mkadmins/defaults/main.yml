@@ -9,7 +9,7 @@
 # Multiple dictionaries due to RHEL/Debian having different default
 #   administrators in sudo; might simplify by making a sudo role.
 #
-users:
+mkadmins_users:
   tinkermill:
     state: present
     name: TinkerMill Default User
@@ -20,7 +20,7 @@ users:
     name: Chris Lindbergh
     shell: /bin/bash
     password: $6$rounds=40000$3FSkLqYlJroTn4kX$uGV8QXb7IphgT2Izckm5CouKzPj1hu4jBcaflWJNjFIsD.MTcGsjiT5AVFpSfLzlGCFWNeHrvrSyjWndB66Ps.
-rc_files:
+mkadmins_rc_files:
   - name: kso
     group:
     files:

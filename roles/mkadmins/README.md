@@ -14,20 +14,20 @@ Role Variables
 
 | Defaults   | Description |
 | ---------- | ----------- |
-| users |  Dictionary defining users. |
-| rc_files   | 'dot rc files' to place for new users. |
+| mkadmins_users |  Dictionary defining users. |
+| mkadmins_rc_files | 'dot rc files' to place for new users. |
 
 Override with variables at the group or host level for systems with special needs, for example a host that needs a second .screenrc file so it can master other screen sessions.
 
 Simple example with one user:
 
-    users:
+    mkadmins_users:
       merlin:
         state: present
         name: Merlin the Wizard
         shell: /bin/bash
         password: $6$rounds=40000$ThisIsNotTheGreatestPasswordInTheWorld,NoThisIsJustTheHash
-    rc_files:
+    mkadmins_rc_files:
       - name: merlin
         group:
         files:
