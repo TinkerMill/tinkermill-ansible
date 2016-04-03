@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+{% for id in users %}
+{{ id }} ALL = (ALL:ALL) ALL
+Defaults:{{ id }} !requiretty
+{% endfor %}

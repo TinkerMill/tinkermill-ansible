@@ -1,0 +1,6 @@
+---
+# defaults file for mksudo
+
+users:
+  - kso
+  - tinkermill
