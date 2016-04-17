@@ -10,18 +10,6 @@
     - syslog-receiver
     - packages
 
-- name: Task | Create the remote log file folder
-  file: >
-    owner=syslog
-    group=adm
-    mode=0755
-    state=directory
-    path={{ syslog_receiver_remote_log_folder }}
-  notify: Handler | Restart RsyslogD
-  tags:
-    - syslog-receiver
-    - files
-
 - name: Task | Place the rsyslog configuration file
   template: >
     owner=root
