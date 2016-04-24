@@ -10,13 +10,25 @@
     - syslog-receiver
     - packages
 
-- name: Task | Place the rsyslog configuration file
+- name: Task | Replace the main rsyslog configuration file
   template: >
     owner=root
     group=root
     mode=0644
     src=rsyslog.conf.j2
     dest=/etc/rsyslog.conf
+  notify: Handler | Restart RsyslogD
+  tags:
+    - syslog-receiver
+    - files
+
+- name: Task | Replace the default rsyslog configuration file
+  template: >
+    owner=root
+    group=root
+    mode=0644
+    src=50-default.conf.j2
+    dest=/etc/rsyslog.d/50-default.conf
   notify: Handler | Restart RsyslogD
   tags:
     - syslog-receiver
