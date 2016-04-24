@@ -4,6 +4,7 @@
   name: All hosts
   become: yes
   roles:
+    - mkadmins
     - fwd-syslog
 
 # Active groups:
