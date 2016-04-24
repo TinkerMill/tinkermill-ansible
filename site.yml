@@ -5,6 +5,7 @@
   become: yes
   roles:
     - mkadmins
+    - mksudo
     - fwd-syslog
 
 # Active groups:
