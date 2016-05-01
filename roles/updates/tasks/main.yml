@@ -1,0 +1,18 @@
+---
+# tasks file for updates
+
+- name: Task | Update APT cache
+  apt: >
+    cache_valid_time=3600
+    update_cache=yes
+  tags:
+    - updates
+    - packages
+
+- name: Task | Apply available updates
+  apt: >
+    cache_valid_time=3600
+    upgrade=yes
+  tags:
+    - updates
+    - packages
