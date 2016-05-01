@@ -4,6 +4,7 @@
   name: All hosts
   become: yes
   roles:
+    - updates
     - mkadmins
     - mksudo
     - fwd-syslog
