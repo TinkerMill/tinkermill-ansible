@@ -1,0 +1,54 @@
+---
+# tasks file for install-omd
+- name: Task | Install GPG key
+  apt_key: >
+    keyserver=keys.gnupg.net
+    id=F8C1CA08A57B9ED7
+    state=present
+  tags:
+    - install-omd
+    - packages
+
+- name: Task | Add ConSol repository
+  apt_repository: >
+    repo='deb http://labs.consol.de/repo/stable/ubuntu trusty main'
+    state=present
+  tags:
+    - install-omd
+    - packages
+
+- name: Task | Update APT cache
+  apt: update_cache=yes
+  tags:
+    - install-omd
+    - packages
+
+- name: Task | Install OMD
+  apt: >
+    name=omd-1.30
+    state=present
+  tags:
+    - install-omd
+    - packages
+
+- name: Task | Setup OMD
+  command: omd setup
+  tags:
+    - install-omd
+    - packages
+
+- name: Task | Create OMD site
+  command: omd create {{ omd_site }}
+  args:
+    creates: /opt/omd/sites/{{ omd_site }}
+  tags:
+    - install-omd
+    - files
+
+- name: Task | Start OMD site
+  command: omd start {{ omd_site }}
+  args:
+    creates: /opt/omd/sites/{{ omd_site }}/tmp/apache/run/apache.pid
+  tags:
+    - install-omd
+    - files
