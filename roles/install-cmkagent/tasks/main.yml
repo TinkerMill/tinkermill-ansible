@@ -1,0 +1,110 @@
+---
+# tasks file for install-cmkagent
+- name: Task | Create monitoring group - cmkagent
+  group: name=cmkagent state=present
+  tags:
+    - install-cmkagent
+    - users
+
+- name: Task | Create monitoring user - cmkagent
+  user: >
+    name=cmkagent group=cmkagent home=/home/cmkagent
+    comment="Check_MK Agent"
+  tags:
+    - install-cmkagent
+    - users
+
+- name: Task | Copy Linux check_mk_agent to ~cmkagent and set executable
+  copy: >
+    owner=cmkagent group=cmkagent mode=0700
+    src=check_mk_agent.linux
+    dest=/home/cmkagent/check_mk_agent
+  when: ansible_system.find( 'Linux' ) == 0
+  tags:
+    - install-cmkagent
+    - files
+
+- name: Task | Grant sudo for check_mk_agent to monitoring user
+  template: >
+    owner=root group=root mode=0440
+    src=99_cmkagent.j2
+    dest=/etc/sudoers.d/99_cmkagent
+    validate='visudo -cf %s'
+  tags:
+    - install-cmkagent
+    - files
+    - users
+
+- name: Task | Create directory - ~cmkagent/.ssh
+  file: >
+    owner=cmkagent group=cmkagent mode=0700
+    path=/home/cmkagent/.ssh
+    state=directory
+  tags:
+    - install-cmkagent
+    - files
+    - users
+
+- name: Task | Copy public key to ~cmkagent/.ssh/authorized_keys
+  template: >
+    owner=cmkagent group=cmkagent mode=0600
+    src=authorized_keys.j2
+    dest=/home/cmkagent/.ssh/authorized_keys
+  tags:
+    - install-cmkagent
+    - files
+    - users
+
+- name: Task | Create directory - ~cmkagent/local
+  file: >
+    owner=cmkagent group=cmkagent mode=0700
+    path=/home/cmkagent/local
+    state=directory
+  tags:
+    - install-cmkagent
+    - files
+
+- name: Task | Generate local checks
+  template: >
+    owner=cmkagent group=cmkagent mode=0700
+    src={{ item }}.j2
+    dest=/home/cmkagent/local/{{ item }}
+  with_items: local_checks
+  tags:
+    - install-cmkagent
+    - files
+
+- name: Task | Create directory - ~cmkagent/plugins
+  file: >
+    owner=cmkagent group=cmkagent mode=0700
+    path=/home/cmkagent/plugins
+    state=directory
+  tags:
+    - install-cmkagent
+    - files
+
+- name: Task | Create directory - ~cmkagent/spool
+  file: >
+    owner=cmkagent group=cmkagent mode=0700
+    path=/home/cmkagent/spool
+    state=directory
+  tags:
+    - install-cmkagent
+    - files
+
+- name: Task | Create directory - ~cmkagent/cache
+  file: >
+    owner=cmkagent group=cmkagent mode=0700
+    path=/home/cmkagent/cache
+    state=directory
+  tags:
+    - install-cmkagent
+    - files
+
+- name: Task | Remove /usr/lib/check_mk_agent
+  file: >
+    path=/usr/lib/check_mk_agent
+    state=absent
+  tags:
+    - install-cmkagent
+    - files
