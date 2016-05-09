@@ -1,0 +1,7 @@
+---
+# OMD/Check_MK virtual machine:
+- name: hq-omd
+  hosts: hq-omd
+  become: yes
+  roles:
+    - install-omd
