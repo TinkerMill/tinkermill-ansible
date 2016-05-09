@@ -8,6 +8,7 @@
     - mkadmins
     - mksudo
     - fwd-syslog
+    - install-cmkagent
 
 # Active groups:
 - include: hq-syslog.yml
