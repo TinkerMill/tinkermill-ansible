@@ -11,3 +11,4 @@
 
 # Active groups:
 - include: hq-syslog.yml
+- include: hq-omd.yml
