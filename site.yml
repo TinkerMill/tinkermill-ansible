@@ -7,8 +7,15 @@
     - updates
     - mkadmins
     - mksudo
-    - fwd-syslog
     - install-cmkagent
+
+# Production-only roles:
+- hosts: production
+  name: Production hosts
+  become: yes
+  roles:
+    - fwd-syslog
+    - pmbauer.tarsnap
 
 # Active groups:
 - include: hq-syslog.yml
