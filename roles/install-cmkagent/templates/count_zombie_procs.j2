@@ -20,16 +20,16 @@ PS_OUTPUT=$(ps aux | awk '{ print $8 }' | grep -c Z)
 # Perform calculations:
 PERF_DATA="zombies=$PS_OUTPUT;$WARN;$CRIT"
 
-if [ "$PS_OUTPUT" -lt "$WARN" ]; then
+#if [ "$PS_OUTPUT" -lt "$WARN" ]; then
   STATUS=0
-  CHECK_OUTPUT="OK - $PS_OUTPUT zombie processes"
-elif [ "$PS_OUTPUT" -lt "$CRIT" ]; then
-  STATUS=1
-  CHECK_OUTPUT="WARNING - $PS_OUTPUT zombie processes"
-else
-  STATUS=2
-  CHECK_OUTPUT="CRITICAL - $PS_OUTPUT zombie processes"
-fi
+  CHECK_OUTPUT="OK - $PS_OUTPUT zombie processes" # No need for alerts at this time.
+#elif [ "$PS_OUTPUT" -lt "$CRIT" ]; then
+#  STATUS=1
+#  CHECK_OUTPUT="WARNING - $PS_OUTPUT zombie processes"
+#else
+#  STATUS=2
+#  CHECK_OUTPUT="CRITICAL - $PS_OUTPUT zombie processes"
+#fi
 
 # Return output:
 echo "$STATUS $ITEM_NAME $PERF_DATA $CHECK_OUTPUT"

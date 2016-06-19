@@ -24,16 +24,16 @@ WC_OUTPUT=$((WC_OUTPUT-2))
 PERF_DATA="logins=$WC_OUTPUT;$WARN;$CRIT"
 
 # Decide on a status and build the check output:
-if [ "$WC_OUTPUT" -lt "$WARN" ]; then
+#if [ "$WC_OUTPUT" -lt "$WARN" ]; then
   STATUS=0
-  CHECK_OUTPUT="OK - $WC_OUTPUT users logged in"
-elif [ "$WC_OUTPUT" -lt "$CRIT" ]; then
-  STATUS=1
-  CHECK_OUTPUT="WARNING - $WC_OUTPUT users logged in"
-else
-  STATUS=2
-  CHECK_OUTPUT="CRITICAL - $WC_OUTPUT users logged in"
-fi
+  CHECK_OUTPUT="OK - $WC_OUTPUT users logged in" # No need for alerts at this time.
+#elif [ "$WC_OUTPUT" -lt "$CRIT" ]; then
+#  STATUS=1
+#  CHECK_OUTPUT="WARNING - $WC_OUTPUT users logged in"
+#else
+#  STATUS=2
+#  CHECK_OUTPUT="CRITICAL - $WC_OUTPUT users logged in"
+#fi
 
 # Return output:
 echo "$STATUS $ITEM_NAME $PERF_DATA $CHECK_OUTPUT"
