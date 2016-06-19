@@ -1,0 +1,7 @@
+---
+# Shell master system:
+- name: hq-shell
+  hosts: hq-shell
+  become: yes
+  roles:
+    - shell-master
