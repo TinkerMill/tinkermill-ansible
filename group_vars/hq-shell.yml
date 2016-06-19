@@ -1,0 +1,3 @@
+---
+tarsnap_tarsnapper_conf: "tarsnapper.shell.conf"
+tarsnap_cron_minute: "40"
