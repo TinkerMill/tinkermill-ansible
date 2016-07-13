@@ -1,4 +1,4 @@
 ---
 tarsnap_tarsnapper_conf: "tarsnapper.nas.conf"
 tarsnap_cron_minute: "30"
-tarsnap_cron_hour: "*"
+tarsnap_cron_hour: "5,17"
