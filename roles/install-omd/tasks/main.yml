@@ -1,31 +1,26 @@
 ---
 # tasks file for install-omd
-- name: Task | Install GPG key
-  apt_key: >
-    keyserver=keys.gnupg.net
-    id=F8C1CA08A57B9ED7
-    state=present
-  tags:
-    - install-omd
-    - packages
-
-- name: Task | Add ConSol repository
-  apt_repository: >
-    repo='deb http://labs.consol.de/repo/stable/ubuntu trusty main'
-    state=present
-  tags:
-    - install-omd
-    - packages
 
 - name: Task | Update APT cache
-  apt: update_cache=yes
+  apt: >
+    update_cache=yes
+    cache_valid_time=600
   tags:
     - install-omd
     - packages
 
-- name: Task | Install OMD
+- name: Task | Copy installation package
+  copy: >
+    owner=root group=root mode=0755
+    src=check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+    dest=/opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+  tags:
+    - install-omd
+    - files
+
+- name: Task | Install Check_MK RAW
   apt: >
-    name=omd-1.30
+    deb=/opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
     state=present
   tags:
     - install-omd
@@ -52,3 +47,15 @@
   tags:
     - install-omd
     - files
+
+- name: Task | Create symlink for php5-cgi to fix graphing
+  file: >
+    dest=/usr/bin/php5-cgi
+    src=/usr/bin/php-cgi
+    owner=root
+    group=root
+    state=link
+  tags:
+    - install-omd
+    - files
+
