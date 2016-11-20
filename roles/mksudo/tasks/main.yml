@@ -1,7 +1,7 @@
 ---
 # tasks file for mksudo
 
-- name: Task | Grant sudo for defined user(s)
+- name: Grant sudo for defined user(s)
   template: >
    owner=root group=root mode=0440
    src={{ item }}

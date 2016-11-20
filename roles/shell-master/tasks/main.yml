@@ -1,6 +1,6 @@
 ---
 # tasks file for shell-master
-- name: Task | Install required packages
+- name: Install required packages
   apt: >
     cache_valid_time=3600
     pkg={{ item }} state=installed
@@ -13,7 +13,7 @@
     - shell-master
     - packages
 
-- name: Task | Replace the SSH client configuration file
+- name: Replace the SSH client configuration file
   template: >
     owner=root
     group=root

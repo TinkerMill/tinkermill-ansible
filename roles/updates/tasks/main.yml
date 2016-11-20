@@ -1,7 +1,7 @@
 ---
 # tasks file for updates
 
-- name: Task | Point APT to PFSense Proxy
+- name: Point APT to PFSense Proxy
   lineinfile: >
     create=yes
     dest=/etc/apt/apt.conf
@@ -14,7 +14,7 @@
     - updates
     - files  
 
-- name: Task | Update APT cache
+- name: Update APT cache
   apt: >
     cache_valid_time=3600
     update_cache=yes
@@ -22,7 +22,7 @@
     - updates
     - packages
 
-- name: Task | Apply available updates
+- name: Apply available updates
   apt: >
     cache_valid_time=3600
     upgrade=yes

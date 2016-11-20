@@ -1,7 +1,7 @@
 ---
 # tasks file for fwd-syslog
-- name: Task | Copy /etc/rsyslog.d/forward-syslog.conf
-  notify: Handler | Restart rsyslog
+- name: Copy /etc/rsyslog.d/forward-syslog.conf
+  notify: Restart rsyslog
   template: >
     owner=root group=root mode=0644 backup=yes
     src=forward-syslog.conf.j2

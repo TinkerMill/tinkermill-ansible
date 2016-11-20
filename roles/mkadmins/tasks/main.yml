@@ -1,6 +1,6 @@
 ---
 # Create groups:
-- name: Task | Create groups
+- name: Create groups
   group: >
     name="{{ item.key }}"
     state="{{ item.value.state }}"
@@ -10,7 +10,7 @@
     - users
 
 # Create users:
-- name: Task | Create users
+- name: Create users
   user: >
     name="{{ item.key }}"
     state="{{ item.value.state }}"
@@ -29,7 +29,7 @@
 #   defined in defaults/main.yml, and using '| default' to enable
 #   group-specific files.  Does require all .rc files to be defined,
 #   but sym-links work:
-- name: Task | Generate .*rc files
+- name: Generate .*rc files
   template: >
     owner="{{ item.0.name }}"
     group="{{ item.0.name }}"

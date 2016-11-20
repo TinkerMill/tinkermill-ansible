@@ -1,7 +1,7 @@
 ---
 # tasks file for install-omd
 
-- name: Task | Update APT cache
+- name: Update APT cache
   apt: >
     update_cache=yes
     cache_valid_time=600
@@ -9,7 +9,7 @@
     - install-omd
     - packages
 
-- name: Task | Fetch installation package
+- name: Fetch installation package
   get_url: >
     owner=root group=root mode=0755
     url=https://mathias-kettner.de/support/1.2.8p13/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
@@ -18,7 +18,7 @@
     - install-omd
     - files
 
-- name: Task | Install Check_MK RAW
+- name: Install Check_MK RAW
   apt: >
     deb=/opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
     state=present
@@ -26,13 +26,13 @@
     - install-omd
     - packages
 
-- name: Task | Setup OMD
+- name: Setup OMD
   command: omd setup
   tags:
     - install-omd
     - packages
 
-- name: Task | Create OMD site
+- name: Create OMD site
   command: omd create {{ omd_site }}
   args:
     creates: /opt/omd/sites/{{ omd_site }}
@@ -40,7 +40,7 @@
     - install-omd
     - files
 
-- name: Task | Start OMD site
+- name: Start OMD site
   command: omd start {{ omd_site }}
   args:
     creates: /opt/omd/sites/{{ omd_site }}/tmp/apache/run/apache.pid

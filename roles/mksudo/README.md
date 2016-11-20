@@ -18,7 +18,7 @@ Role Variables
 
 Override with variables at the group or host level for systems with special needs.  
 
-See the "with_first_found" section of "Task | Grant sudo for defined user(s)" for definition.
+See the "with_first_found" section of "Grant sudo for defined user(s)" for definition.
 
 Dependencies
 ------------

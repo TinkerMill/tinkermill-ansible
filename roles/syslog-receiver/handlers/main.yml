@@ -1,6 +1,6 @@
 ---
 # handlers file for syslog-receiver
-- name: Handler | Restart RsyslogD
+- name: Restart RsyslogD
   service: >
     state=restarted
     name=rsyslog
