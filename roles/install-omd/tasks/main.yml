@@ -9,10 +9,10 @@
     - install-omd
     - packages
 
-- name: Task | Copy installation package
-  copy: >
+- name: Task | Fetch installation package
+  get_url: >
     owner=root group=root mode=0755
-    src=check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+    url=https://mathias-kettner.de/support/1.2.8p13/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
     dest=/opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
   tags:
     - install-omd
@@ -44,17 +44,6 @@
   command: omd start {{ omd_site }}
   args:
     creates: /opt/omd/sites/{{ omd_site }}/tmp/apache/run/apache.pid
-  tags:
-    - install-omd
-    - files
-
-- name: Task | Create symlink for php5-cgi to fix graphing
-  file: >
-    dest=/usr/bin/php5-cgi
-    src=/usr/bin/php-cgi
-    owner=root
-    group=root
-    state=link
   tags:
     - install-omd
     - files
