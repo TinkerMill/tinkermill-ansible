@@ -2,10 +2,13 @@
 # tasks file for fwd-syslog
 - name: Copy /etc/rsyslog.d/forward-syslog.conf
   notify: Restart rsyslog
-  template: >
-    owner=root group=root mode=0644 backup=yes
-    src=forward-syslog.conf.j2
-    dest=/etc/rsyslog.d/forward-syslog.conf
+  template: 
+    owner: root 
+    group: root 
+    mode: 0644 
+    backup: yes
+    src: forward-syslog.conf.j2
+    dest: /etc/rsyslog.d/forward-syslog.conf
   when: "'hq-syslog' not in group_names"
   tags:
     - fwd-syslog

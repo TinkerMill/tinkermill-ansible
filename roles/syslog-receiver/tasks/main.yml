@@ -1,46 +1,46 @@
 ---
 # tasks file for syslog-receiver
 - name: Install Rsyslog
-  apt: >
-    cache_valid_time=3600
-    name=rsyslog
-    state=present
-    update_cache=yes
+  apt: 
+    cache_valid_time: 3600
+    name: rsyslog
+    state: present
+    update_cache: yes
   tags:
     - syslog-receiver
     - packages
 
 - name: Replace the main rsyslog configuration file
-  template: >
-    owner=root
-    group=root
-    mode=0644
-    src=rsyslog.conf.j2
-    dest=/etc/rsyslog.conf
+  template: 
+    owner: root
+    group: root
+    mode: 0644
+    src: rsyslog.conf.j2
+    dest: /etc/rsyslog.conf
   notify: Restart RsyslogD
   tags:
     - syslog-receiver
     - files
 
 - name: Replace the default rsyslog configuration file
-  template: >
-    owner=root
-    group=root
-    mode=0644
-    src=50-default.conf.j2
-    dest=/etc/rsyslog.d/50-default.conf
+  template: 
+    owner: root
+    group: root
+    mode: 0644
+    src: 50-default.conf.j2
+    dest: /etc/rsyslog.d/50-default.conf
   notify: Restart RsyslogD
   tags:
     - syslog-receiver
     - files
 
 - name: Place the rsyslog logrotate file
-  template: >
-    owner=root
-    group=root
-    mode=0644
-    src=rsyslog.j2
-    dest=/etc/logrotate.d/rsyslog
+  template: 
+    owner: root
+    group: root
+    mode: 0644
+    src: rsyslog.j2
+    dest: /etc/logrotate.d/rsyslog
   tags:
     - syslog-receiver
     - files

@@ -2,11 +2,13 @@
 # tasks file for mksudo
 
 - name: Grant sudo for defined user(s)
-  template: >
-   owner=root group=root mode=0440
-   src={{ item }}
-   dest="/etc/sudoers.d/99_ansible_mksudo"
-   validate='visudo -cf %s'
+  template: 
+    owner: root 
+    group: root 
+    mode: 0440
+    src: "{{ item }}"
+    dest: "/etc/sudoers.d/99_ansible_mksudo"
+    validate: 'visudo -cf %s'
   with_first_found:
     - files:
       # First try host-specific files:

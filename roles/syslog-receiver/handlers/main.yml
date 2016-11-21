@@ -1,9 +1,9 @@
 ---
 # handlers file for syslog-receiver
 - name: Restart RsyslogD
-  service: >
-    state=restarted
-    name=rsyslog
+  service: 
+    state: restarted
+    name: rsyslog
   tags:
     - syslog-receiver
     - services

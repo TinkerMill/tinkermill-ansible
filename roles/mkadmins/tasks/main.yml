@@ -1,9 +1,9 @@
 ---
 # Create groups:
 - name: Create groups
-  group: >
-    name="{{ item.key }}"
-    state="{{ item.value.state }}"
+  group: 
+    name: "{{ item.key }}"
+    state: "{{ item.value.state }}"
   with_dict: "{{mkadmins_users}}"
   tags:
     - mkadmins
@@ -11,15 +11,15 @@
 
 # Create users:
 - name: Create users
-  user: >
-    name="{{ item.key }}"
-    state="{{ item.value.state }}"
-    group="{{ item.key }}"
-    shell="{{ item.value.shell }}"
-    password="{{ item.value.password }}"
-    comment="{{ item.value.name }}"
-    append=yes
-    update_password=on_create
+  user: 
+    name: "{{ item.key }}"
+    state: "{{ item.value.state }}"
+    group: "{{ item.key }}"
+    shell: "{{ item.value.shell }}"
+    password: "{{ item.value.password }}"
+    comment: "{{ item.value.name }}"
+    append: yes
+    update_password: on_create
   with_dict: "{{mkadmins_users}}"
   tags:
     - mkadmins
@@ -30,13 +30,13 @@
 #   group-specific files.  Does require all .rc files to be defined,
 #   but sym-links work:
 - name: Generate .*rc files
-  template: >
-    owner="{{ item.0.name }}"
-    group="{{ item.0.name }}"
-    mode=0644
-    backup=yes
-    src="{{ item.0.group | default('') }}{{ item.0.name }}{{ item.1 }}.j2"
-    dest="/home/{{ item.0.name }}/{{ item.1 }}"
+  template: 
+    owner: "{{ item.0.name }}"
+    group: "{{ item.0.name }}"
+    mode: 0644
+    backup: yes
+    src: "{{ item.0.group | default('') }}{{ item.0.name }}{{ item.1 }}.j2"
+    dest: "/home/{{ item.0.name }}/{{ item.1 }}"
   with_subelements:
     - "{{mkadmins_rc_files}}"
     - files

@@ -2,30 +2,30 @@
 # tasks file for updates
 
 - name: Point APT to PFSense Proxy
-  lineinfile: >
-    create=yes
-    dest=/etc/apt/apt.conf
-    group=root
-    line='Acquire::http::Proxy "http://10.2.0.1:3128";'
-    mode=0644
-    owner=root
-    state=present
+  lineinfile: 
+    create: yes
+    dest: /etc/apt/apt.conf
+    group: root
+    line: Acquire::http::Proxy "http://10.2.0.1:3128";
+    mode: 0644
+    owner: root
+    state: present
   tags:
     - updates
     - files  
 
 - name: Update APT cache
-  apt: >
-    cache_valid_time=3600
-    update_cache=yes
+  apt: 
+    cache_valid_time: 3600
+    update_cache: yes
   tags:
     - updates
     - packages
 
 - name: Apply available updates
-  apt: >
-    cache_valid_time=3600
-    upgrade=yes
+  apt: 
+    cache_valid_time: 3600
+    upgrade: full
   tags:
     - updates
     - packages

@@ -2,26 +2,28 @@
 # tasks file for install-omd
 
 - name: Update APT cache
-  apt: >
-    update_cache=yes
-    cache_valid_time=600
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
   tags:
     - install-omd
     - packages
 
 - name: Fetch installation package
-  get_url: >
-    owner=root group=root mode=0755
-    url=https://mathias-kettner.de/support/1.2.8p13/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
-    dest=/opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+  get_url: 
+    owner: root 
+    group: root 
+    mode: 0755
+    url: https://mathias-kettner.de/support/1.2.8p13/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+    dest: /opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
   tags:
     - install-omd
     - files
 
 - name: Install Check_MK RAW
-  apt: >
-    deb=/opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
-    state=present
+  apt: 
+    deb: /opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+    state: present
   tags:
     - install-omd
     - packages
