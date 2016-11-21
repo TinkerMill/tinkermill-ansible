@@ -3,7 +3,9 @@
 
 # Restart rsyslog:
 - name: Restart rsyslog
-  service: name=rsyslog state=restarted
+  service: 
+    name: rsyslog 
+    state: restarted
   tags:
     - fwd-syslog
     - services
