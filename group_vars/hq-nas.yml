@@ -1,4 +1,8 @@
 ---
+# Specify custom tarsnapper.conf: 
 tarsnap_tarsnapper_conf: "tarsnapper.nas.conf"
+# Specify minute for tarsnap cron job:
 tarsnap_cron_minute: "30"
+# Specify hour for tarsnap cron job:
 tarsnap_cron_hour: "5,17"
+

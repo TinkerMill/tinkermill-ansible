@@ -1,2 +1,3 @@
 ---
+# Specify syslog server to point logs to:
 syslog_server: galatea

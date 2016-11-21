@@ -1,3 +1,5 @@
 ---
+# Specify custom tarsnapper.conf:
 tarsnap_tarsnapper_conf: "tarsnapper.omd.conf"
+# Specify minute for tarsnap cron job:
 tarsnap_cron_minute: "10"
