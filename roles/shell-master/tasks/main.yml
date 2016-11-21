@@ -1,5 +1,7 @@
 ---
 # tasks file for shell-master
+
+# Install required packages:
 - name: Install required packages
   apt: 
     cache_valid_time: 3600
@@ -14,6 +16,7 @@
     - shell-master
     - packages
 
+# Replace the SSH client configuration file:
 - name: Replace the SSH client configuration file
   template: 
     owner: root

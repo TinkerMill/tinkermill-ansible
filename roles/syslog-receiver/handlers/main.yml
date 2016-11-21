@@ -1,5 +1,7 @@
 ---
 # handlers file for syslog-receiver
+
+# Restart rsyslog:
 - name: Restart RsyslogD
   service: 
     state: restarted

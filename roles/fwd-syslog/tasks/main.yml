@@ -1,5 +1,7 @@
 ---
 # tasks file for fwd-syslog
+
+# Copy custom configuration file and restart rsyslog if needed:
 - name: Copy /etc/rsyslog.d/forward-syslog.conf
   notify: Restart rsyslog
   template: 

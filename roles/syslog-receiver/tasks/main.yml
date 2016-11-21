@@ -1,5 +1,7 @@
 ---
 # tasks file for syslog-receiver
+
+# Install rsyslog:
 - name: Install Rsyslog
   apt: 
     cache_valid_time: 3600
@@ -10,6 +12,7 @@
     - syslog-receiver
     - packages
 
+# Copy over new config file:
 - name: Replace the main rsyslog configuration file
   template: 
     owner: root
@@ -22,6 +25,7 @@
     - syslog-receiver
     - files
 
+# Copy over another new config file:
 - name: Replace the default rsyslog configuration file
   template: 
     owner: root
@@ -34,6 +38,7 @@
     - syslog-receiver
     - files
 
+# Copy over new logrotate file:
 - name: Place the rsyslog logrotate file
   template: 
     owner: root
@@ -44,3 +49,4 @@
   tags:
     - syslog-receiver
     - files
+

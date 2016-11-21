@@ -1,5 +1,7 @@
 ---
 # tasks file for install-cmkagent
+
+# Create required group:
 - name: Create monitoring group - cmkagent
   group: 
     name: cmkagent 
@@ -8,6 +10,7 @@
     - install-cmkagent
     - users
 
+# Create required user:
 - name: Create monitoring user - cmkagent
   user: 
     name: cmkagent 
@@ -18,6 +21,7 @@
     - install-cmkagent
     - users
 
+# Copy Linux agent if Linux:
 - name: Copy Linux check_mk_agent to ~cmkagent and set executable
   copy: 
     owner: cmkagent 
@@ -30,6 +34,7 @@
     - install-cmkagent
     - files
 
+# Grant sudo and verify new file:
 - name: Grant sudo for check_mk_agent to monitoring user
   template: 
     owner: root 
@@ -43,6 +48,7 @@
     - files
     - users
 
+# Make .ssh directory:
 - name: Create directory - ~cmkagent/.ssh
   file: 
     owner: cmkagent 
@@ -55,6 +61,7 @@
     - files
     - users
 
+# Copy SSH key:
 - name: Copy public key to ~cmkagent/.ssh/authorized_keys
   template: 
     owner: cmkagent 
@@ -67,6 +74,7 @@
     - files
     - users
 
+# Make local directory:
 - name: Create directory - ~cmkagent/local
   file: 
     owner: cmkagent 
@@ -78,6 +86,7 @@
     - install-cmkagent
     - files
 
+# Copy over any local checks:
 - name: Generate local checks
   template: 
     owner: cmkagent 
@@ -90,6 +99,7 @@
     - install-cmkagent
     - files
 
+# Make plugins directory:
 - name: Create directory - ~cmkagent/plugins
   file: 
     owner: cmkagent 
@@ -101,6 +111,7 @@
     - install-cmkagent
     - files
 
+# Make spool directory:
 - name: Create directory - ~cmkagent/spool
   file: 
     owner: cmkagent 
@@ -112,6 +123,7 @@
     - install-cmkagent
     - files
 
+# Make cache directory:
 - name: Create directory - ~cmkagent/cache
   file: 
     owner: cmkagent 
@@ -123,6 +135,7 @@
     - install-cmkagent
     - files
 
+# Remove default directory:
 - name: Remove /usr/lib/check_mk_agent
   file: 
     path: /usr/lib/check_mk_agent
@@ -130,3 +143,4 @@
   tags:
     - install-cmkagent
     - files 
+
