@@ -22,6 +22,11 @@ mkadmins_users:
     name: Greg Fischer
     shell: /bin/bash
     password: $6$rounds=656000$BlkixggoFPHb0x6b$O5hXcJCjYoL32meqRbZD7DxiXJC8wDSruS.jKyA9vJurnqf.quhGZN3pTp2XAJgkPNB6AMJM8HsvG5MuvxJNZ.
+  bwelkerd:
+    state: present
+    name: Bruce Welker
+    shell: /bin/bash
+    password: $6$rounds=656000$fbRi7GZJgYcNb.gD$zjFPTdh9/8RGKMDsjuHQLpmv7..G7ZB9O1mlyJztxbVWtTJWwfHBcNWG.f.BbkyRIo2kjEeGBY/pqKtbAZ.vV0
 mkadmins_rc_files:
   - name: kso
     group:
