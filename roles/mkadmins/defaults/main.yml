@@ -17,6 +17,11 @@ mkadmins_users:
     name: Chris Lindbergh
     shell: /bin/bash
     password: $6$rounds=40000$3FSkLqYlJroTn4kX$uGV8QXb7IphgT2Izckm5CouKzPj1hu4jBcaflWJNjFIsD.MTcGsjiT5AVFpSfLzlGCFWNeHrvrSyjWndB66Ps.
+  gofish:
+    state: present
+    name: Greg Fischer
+    shell: /bin/bash
+    password: $6$rounds=656000$BlkixggoFPHb0x6b$O5hXcJCjYoL32meqRbZD7DxiXJC8wDSruS.jKyA9vJurnqf.quhGZN3pTp2XAJgkPNB6AMJM8HsvG5MuvxJNZ.
 mkadmins_rc_files:
   - name: kso
     group:
