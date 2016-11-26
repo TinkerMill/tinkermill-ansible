@@ -7,7 +7,7 @@
     create: yes
     dest: /etc/apt/apt.conf
     group: root
-    line: Acquire::http::Proxy "http://10.2.0.1:3128";
+    line: Acquire::http::Proxy "http://{{ pfsense_proxy_host }}:{{ pfsense_proxy_port }}";
     mode: 0644
     owner: root
     state: present
