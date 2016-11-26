@@ -1,2 +1,7 @@
 ---
 # defaults file for updates
+
+# PFSense Proxy settings:
+pfsense_proxy_host: 10.2.0.1
+pfsense_proxy_port: 3128
+
