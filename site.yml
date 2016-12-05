@@ -21,3 +21,5 @@
 - include: hq-syslog.yml
 - include: hq-omd.yml
 - include: hq-shell.yml
+- include: hq-tinkeraccess-server.yml
+
