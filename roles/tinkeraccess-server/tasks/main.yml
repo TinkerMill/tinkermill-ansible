@@ -1,0 +1,36 @@
+---
+# tasks file for tinkeraccess-server
+
+# Disable DHCP client:
+
+# Disable wifi:
+
+# Disable avahi-daemon:
+
+# Disable bluetooth:
+
+# Set LANG/locale to US:
+
+# Set timezone to US/Mountain:
+
+# Use git module to clone repository:
+- name: Clone repository
+  git:
+    bare: no
+    clone: yes
+    dest: "{{ tinkeraccess_repo_dest }}"
+    repo: "{{ tinkeraccess_repo_source }}"
+  tags:
+    - tinkeraccess-server
+    - files
+
+# Run the install script:
+- name: Run the install script
+  shell: "{{ tinkeraccess_repo_dest }}/install.sh"
+  args:
+    chdir: "{{ tinkeraccess_repo_dest }}"
+    creates: /etc/init.d/tinkerserver
+  tags:
+    - tinkeraccess-server
+    - files
+
