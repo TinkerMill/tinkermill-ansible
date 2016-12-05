@@ -1,0 +1,8 @@
+---
+# TinkerAccess server
+- name: hq-tinkeraccess-server
+  hosts: hq-tinkeraccess-server
+  become: yes
+  roles:
+    - tinkeraccess-server
+
