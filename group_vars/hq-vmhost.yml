@@ -1,5 +1,5 @@
 ---
 # Specify custom tarsnapper.conf:
-tarsnap_tarsnapper_conf: "tarsnapper.vm-host.conf"
+tarsnap_tarsnapper_conf: "tarsnapper.vmhost.conf"
 # Specify minute for tarsnap cron job:
 tarsnap_cron_minute: "20"
