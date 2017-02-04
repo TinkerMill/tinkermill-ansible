@@ -1,25 +1,23 @@
-install-omd
-=========
+# install-omd
 
-A role to install OMD and set up an initial site.
+A role to install OMD/Check_MK RAW and set up an initial site.
 
-Requirements
-------------
+## Requirements
 
-None.
+Uses the following Core Ansible modules:
+apt, command, get_url 
 
-Role Variables
---------------
+## Role Variables
 
-omd_site: hq
+| Variable | Description | Default Value |
+| -------- | ----------- | ------------- |
+| omd_site | Name of initial OMD/Check_MK RAW 'site' to provision | hq |
 
-Dependencies
-------------
+## Dependencies
 
-None.
+Depends on APT/Debian support.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Complete example:
 
@@ -27,12 +25,10 @@ Complete example:
       roles:
          - { role: install-omd, omd_site: test }
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 > Chris Lindbergh
