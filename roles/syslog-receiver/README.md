@@ -1,25 +1,23 @@
-syslog-receiver
-=========
+# syslog-receiver
 
 A role to configure RsyslogD as a TCP/UDP 514 syslog receiver.
 
-Requirements
-------------
+## Requirements
 
-None.
+Uses the following Core Ansible modules:
+apt, service, template
 
-Role Variables
---------------
+## Role Variables
 
-syslog_receiver_remote_log_folder: /var/log/remote
+| Variable | Description | Default Value |
+| -------- | ----------- | ------------- |
+| syslog_receiver_remote_log_folder | Location of remote syslog folder | /var/log/remote |
 
-Dependencies
-------------
+## Dependencies
 
-None.
+Depends on rsyslog being installed as a service.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Complete example:
 
@@ -27,12 +25,10 @@ Complete example:
       roles:
          - { role: syslog-receiver, syslog_receiver_remote_log_folder: /var/log/remote }
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 > Chris Lindbergh
