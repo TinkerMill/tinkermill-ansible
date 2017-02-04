@@ -1,36 +1,30 @@
-shell-master
-=========
+# shell-master
 
 A role to configure a system so it acts as a great shell system.  For example, running scripts, interacting with git & ansible, etc.
 
-Requirements
-------------
+## Requirements
 
-None
+Uses the following Core Ansible modules:
+apt, template
 
-Role Variables
---------------
+## Role Variables
 
-None
+None.
 
-Dependencies
-------------
+## Dependencies
 
-None
+None.
 
-Example Playbook
-----------------
+## Example Playbook
 
     - hosts: servers
       roles:
          - { role: shell-master }
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 > Chris Lindbergh

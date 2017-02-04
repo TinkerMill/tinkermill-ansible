@@ -1,25 +1,24 @@
-updates
-=========
+# updates
 
-A role to apply software updates.
+A role to apply software updates, via a proxy if defined.
 
-Requirements
-------------
+## Requirements
 
-None.
+Uses the following Core Ansible modules:
+apt, lineinfile, wait_for
 
-Role Variables
---------------
+## Role Variables
 
-None.
+| Variable | Description | Default Value |
+| -------- | ----------- | ------------- |
+| pfsense_proxy_host | Proxy host | 10.2.0.1 |
+| pfsense_proxy_port | Proxy port | 3128 |
 
-Dependencies
-------------
+## Dependencies
 
-None.
+Requires APT support.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Complete example:
 
@@ -27,12 +26,10 @@ Complete example:
       roles:
          - { role: updates }
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 > Chris Lindbergh

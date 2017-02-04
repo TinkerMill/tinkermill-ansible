@@ -1,38 +1,33 @@
-Role Name
-=========
+# tinkeraccess-server
 
-A brief description of the role goes here.
+A role to configure a Raspberry Pi so it can act as a server for the TinkerAccess system.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Uses the following Core Ansible modules:
+git, lineinfile, locale_gen, service, shell
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Variable | Description | Default Value |
+| -------- | ----------- | ------------- |
+| tinkeraccess_repo_dest | Location on the RPi to place the git repo | /root/tinkerAccess |
+| tinkeraccess_repo_source | URL to pull git repo from | https://github.com/TinkerMill/tinkerAccess.git |
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Example Playbook
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: tinkeraccess-server }
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+> Chris Lindbergh

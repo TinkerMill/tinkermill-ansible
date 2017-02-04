@@ -1,21 +1,18 @@
-mkadmins
-=========
+# mkadmins
 
 An Ansible role to create one (or more) administrator accounts, including 'dot rc files' and groups if specified.
 
-Requirements
-------------
+## Requirements
 
 Uses the following Core Ansible modules:
-group, user, template
+group, template, user
 
-Role Variables
---------------
+## Role Variables
 
-| Defaults   | Description |
-| ---------- | ----------- |
-| mkadmins_users |  Dictionary defining users. |
-| mkadmins_rc_files | 'dot rc files' to place for new users. |
+| Variable | Description | Default Value |
+| -------- | ----------- | ------------- |
+| mkadmins_users |  Dictionary defining users. | (several users) |
+| mkadmins_rc_files | 'dot rc files' to place for new users. | (several files) |
 
 Override with variables at the group or host level for systems with special needs, for example a host that needs a second .screenrc file so it can master other screen sessions.
 
@@ -39,24 +36,21 @@ Generate useful password hashes with this command on any system with the "python
 
 > $ python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
 
-Dependencies
-------------
+## Dependencies
 
 Customize **./defaults/main.yml** and **./templates/*.j2** before first use!
 
-Example Playbook
-----------------
+## Example Playbook
 
     - hosts: gibsons
       roles:
          - { role: mkadmins }
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 > Chris Lindbergh
+
