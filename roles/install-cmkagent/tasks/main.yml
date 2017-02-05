@@ -111,6 +111,19 @@
     - install-cmkagent
     - files
 
+# Copy over any plugins:
+- name: Generate plugins
+  template: 
+    owner: cmkagent
+    group: cmkagent
+    mode: 0700
+    src: "{{ item }}.j2"
+    dest: "/home/cmkagent/plugins/{{ item }}"
+  with_items: plugins
+  tags:
+    - install-cmkagent
+    - files
+
 # Make spool directory:
 - name: Create directory - ~cmkagent/spool
   file: 
