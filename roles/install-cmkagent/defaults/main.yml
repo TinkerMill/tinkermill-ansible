@@ -10,3 +10,7 @@ count_zombie_procs_crit: 10
 local_checks:
   - count_users
   - count_zombie_procs
+
+plugins:
+  - mk_inventory
+
