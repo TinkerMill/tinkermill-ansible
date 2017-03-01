@@ -1,0 +1,10 @@
+---
+# defaults file for apt-packages
+
+apt_packages:
+  - needrestart
+  - vim
+  - screen
+  - sudo
+  - aptitude
+
