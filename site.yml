@@ -8,6 +8,7 @@
     - mkadmins
     - mksudo
     - install-cmkagent
+    - apt-packages
 
 # Production-only roles:
 - hosts: production
