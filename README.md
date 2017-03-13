@@ -48,6 +48,7 @@ All of the above Requirements are met on the shell server *GOLEM* a.k.a. *10.2.0
   - `ansible-playbook site.yml -i production.ini`
 
 ## Explanation of Roles
+- apt-packages: Install basic set of packages
 - fwd-syslog: Reconfigure "rsyslog" to send syslogs to *MARVIN*
 - install-cmkagent: Install the Check_MK agent
 - install-omd: Install OMD/Check_MK RAW
