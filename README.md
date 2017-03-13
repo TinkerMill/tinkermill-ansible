@@ -48,14 +48,13 @@ All of the above Requirements are met on the shell server *GOLEM* a.k.a. *10.2.0
   - `ansible-playbook site.yml -i production.ini`
 
 ## Explanation of Roles
-- fwd-syslog: Reconfigure "rsyslog" to send syslogs to *GALATEA*
+- fwd-syslog: Reconfigure "rsyslog" to send syslogs to *MARVIN*
 - install-cmkagent: Install the Check_MK agent
 - install-omd: Install OMD/Check_MK RAW
 - mkadmins: Set up important users and groups
 - mksudo: Set up sudo for important users
 - pmbauer.tarsnap: (from Ansible Galaxy) Install Tarsnap backup client
 - shell-master: Configure a host to be a shell server
-- syslog-receiver: Reconfigure "rsyslog" to receive syslogs
 - tinkeraccess-server: Install TinkerAccess on a Raspberry Pi
 - updates: Update APT packages 
 
