@@ -5,7 +5,7 @@ A role to configure a Raspberry Pi so it can act as a server for the TinkerAcces
 ## Requirements
 
 Uses the following Core Ansible modules:
-git, lineinfile, locale_gen, service, shell
+git, service, shell
 
 ## Role Variables
 
