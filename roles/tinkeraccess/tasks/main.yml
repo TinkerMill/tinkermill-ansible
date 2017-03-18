@@ -22,12 +22,24 @@
     - tinkeraccess
     - files
 
+# Enable client:
+- name: Enable tinkerAccess client
+  service:
+    enabled: yes
+    name: "{{ tinkeraccess_client }}"
+    state: started
+  when: tinkeraccess_client_enabled
+  tags:
+    - tinkeraccess
+    - services
+
 # Disable client:
 - name: Disable tinkerAccess client
   service:
-    enabled: no 
-    name: tinkerclient
+    enabled: no
+    name: "{{ tinkeraccess_client }}"
     state: stopped
+  when: not tinkeraccess_client_enabled
   tags:
     - tinkeraccess
     - services
@@ -36,8 +48,20 @@
 - name: Enable tinkerAccess server
   service:
     enabled: yes
-    name: tinkerserver
+    name: "{{ tinkeraccess_server }}"
     state: started
+  when: tinkeraccess_server_enabled
+  tags:
+    - tinkeraccess
+    - services
+
+# Disable server:
+- name: Disable tinkerAccess server
+  service:
+    enabled: yes
+    name: "{{ tinkeraccess_server }}"
+    state: started
+  when: not tinkeraccess_server_enabled
   tags:
     - tinkeraccess
     - services
