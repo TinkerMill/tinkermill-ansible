@@ -1,0 +1,51 @@
+---
+# tasks file for tinkerpi
+
+# Disable DHCP client, avahi-daemon, and bluetooh:
+- name: Disable DHCP client, avahi-daemon, and bluetooh
+  service:
+    enabled: no
+    name: "{{ item }}"
+    state: stopped
+  ignore_errors: yes
+  with_items:
+    - dhcpcd
+    - avahi-daemon
+    - bluetooth
+  tags:
+    - tinkerpi
+    - services
+
+# Disable wifi:
+- name: Disable wifi
+  lineinfile:
+    create: yes
+    dest: /etc/modprobe.d/raspi-blacklist.conf
+    group: root
+    line: "blacklist {{ item }}"
+    mode: 0644
+    owner: root
+    state: present
+  with_items:
+    - brcmfmac
+    - brcmutil
+  tags:
+    - tinkerpi
+    - files
+
+# Set locale to US:
+- name: Set locale to en_US
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+  tags:
+    - tinkerpi
+    - files
+
+# Set timezone; use module once we go to Ansible 2.2:
+- name: Set timezone
+  shell: timedatectl set-timezone America/Denver
+  tags:
+    - tinkerpi
+    - files
+
