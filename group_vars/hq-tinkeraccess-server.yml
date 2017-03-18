@@ -1,0 +1,5 @@
+---
+tinkeraccess_server_enabled: True
+tinkeraccess_client_enabled: False
+tinkeraccess_client: tinkerclient
+
