@@ -2,4 +2,8 @@
 # defaults file for tinkeraccess
 tinkeraccess_repo_dest: /root/tinkerAccess
 tinkeraccess_repo_source: https://github.com/TinkerMill/tinkerAccess.git
+tinkeraccess_server_enabled: False
+tinkeraccess_client_enabled: True
+tinkeraccess_client: tinker-access-client
+tinkeraccess_server: tinkerserver
 
