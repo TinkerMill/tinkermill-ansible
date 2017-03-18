@@ -1,0 +1,9 @@
+---
+# TinkerAccess server
+- name: hq-tinkeraccess-client
+  hosts: hq-tinkeraccess-client
+  become: yes
+  roles:
+    - tinkerpi
+    - tinkeraccess
+
