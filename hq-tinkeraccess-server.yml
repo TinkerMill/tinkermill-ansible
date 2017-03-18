@@ -4,5 +4,6 @@
   hosts: hq-tinkeraccess-server
   become: yes
   roles:
+    - tinkerpi
     - tinkeraccess-server
 
