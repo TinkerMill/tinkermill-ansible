@@ -1,4 +1,4 @@
-# tinkeraccess-server
+# tinkeraccess
 
 A role to configure a Raspberry Pi so it can act as a server for the TinkerAccess system.
 
@@ -22,7 +22,7 @@ None.
 
     - hosts: servers
       roles:
-         - { role: tinkeraccess-server }
+         - { role: tinkeraccess }
 
 ## License
 

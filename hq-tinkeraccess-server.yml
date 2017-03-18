@@ -5,5 +5,5 @@
   become: yes
   roles:
     - tinkerpi
-    - tinkeraccess-server
+    - tinkeraccess
 

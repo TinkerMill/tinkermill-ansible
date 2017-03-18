@@ -1,5 +1,5 @@
 ---
-# defaults file for tinkeraccess-server
+# defaults file for tinkeraccess
 tinkeraccess_repo_dest: /root/tinkerAccess
 tinkeraccess_repo_source: https://github.com/TinkerMill/tinkerAccess.git
 
