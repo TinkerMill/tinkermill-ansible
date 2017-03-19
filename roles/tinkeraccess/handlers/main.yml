@@ -1,2 +1,12 @@
 ---
 # handlers file for tinkeraccess
+
+# Restart tinkerAccess client:
+- name: Restart tinkerAccess client
+  service:
+    name: "{{ tinkeraccess_client }}"
+    state: restarted
+  tags:
+    - tinkeraccess
+    - services
+
