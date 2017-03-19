@@ -22,6 +22,21 @@
     - tinkeraccess
     - files
 
+# Generate client config file:
+- name: Generate client config file
+  notify: Restart tinkerAccess client
+  template:
+    backup: yes
+    dest: /etc/tinker-access-client.conf
+    group: root
+    mode: 0600
+    owner: root
+    src: tinker-access-client.conf.j2
+  when: tinkeraccess_client_enabled
+  tags:
+    - tinkeraccess
+    - files
+
 # Enable client:
 - name: Enable tinkerAccess client
   service:
