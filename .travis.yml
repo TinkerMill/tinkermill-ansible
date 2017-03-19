@@ -10,13 +10,10 @@ before_install:
   - sudo apt-get install -qq python-apt
 install:
   - pip install ansible
-  # Add ansible.cfg to pick up roles path.
-  - >
-    printf '[defaults]
-roles_path = ../' > ansible.cfg
 env:
   - TAGS='apt-packages'
 script:
+  - pwd
   - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
   - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo"
   - >
