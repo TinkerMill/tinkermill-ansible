@@ -14,9 +14,9 @@ env:
   - TAGS='apt-packages'
 script:
   - ansible-playbook -i roles/apt-packages/tests/inventory roles/apt-packages/tests/test.yml --syntax-check
-  - "ansible-playbook -i roles/apt-packages/tests/inventory roles/apt-packages/tests/test.yml --connection=local --sudo"
+  - ansible-playbook -i roles/apt-packages/tests/inventory roles/apt-packages/tests/test.yml
   - >
-    ansible-playbook -i roles/apt-packages/tests/inventory roles/apt-packages/tests/test.yml --connection=local --sudo
+    ansible-playbook -i roles/apt-packages/tests/inventory roles/apt-packages/tests/test.yml
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
