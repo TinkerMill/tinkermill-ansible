@@ -56,7 +56,8 @@ All of the above Requirements are met on the shell server *GOLEM* a.k.a. *10.2.0
 - mksudo: Set up sudo for important users
 - pmbauer.tarsnap: (from Ansible Galaxy) Install Tarsnap backup client
 - shell-master: Configure a host to be a shell server
-- tinkeraccess-server: Install TinkerAccess on a Raspberry Pi
+- tinkeraccess: Install TinkerAccess on a Raspberry Pi
+- tinkerpi: Configure a Raspberry Pi for general use at TinkerMill
 - updates: Update APT packages 
 
 Full details found in each role's README.md; for example `roles/fwd-syslog/README.md`
