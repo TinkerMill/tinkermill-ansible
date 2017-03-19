@@ -1,6 +1,5 @@
 ---
 - hosts: localhost
-  become: yes
   roles:
-    - apt-packages
+    - { role: ../../apt-packages, sudo: yes }
 
