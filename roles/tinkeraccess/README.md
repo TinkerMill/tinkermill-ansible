@@ -5,7 +5,7 @@ A role to configure a Raspberry Pi so it can act as a server for the TinkerAcces
 ## Requirements
 
 Uses the following Core Ansible modules:
-git, service, shell
+git, service, shell, template
 
 ## Role Variables
 
@@ -13,6 +13,10 @@ git, service, shell
 | -------- | ----------- | ------------- |
 | tinkeraccess_repo_dest | Location on the RPi to place the git repo | /root/tinkerAccess |
 | tinkeraccess_repo_source | URL to pull git repo from | https://github.com/TinkerMill/tinkerAccess.git |
+| tinkeraccess_server_enabled | Switch to enable/disable tinkerAccess client | False |
+| tinkeraccess_client_enabled | Switch to enable/disable tinkerAccess server | True | 
+| tinkeraccess_client | Name of tinkerAccess client | tinker-access-client |
+| tinkeraccess_server | Name of tinkerAccess server | tinkerserver |
 
 ## Dependencies
 
