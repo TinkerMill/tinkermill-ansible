@@ -6,4 +6,12 @@ tinkeraccess_server_enabled: False
 tinkeraccess_client_enabled: True
 tinkeraccess_client: tinker-access-client
 tinkeraccess_server: tinkerserver
+tinkeraccess_log_level: 10
+tinkeraccess_reboot_on_error: true
+tinkeraccess_reboot_delay: 5
+tinkeraccess_auto_update: false
+tinkeraccess_auto_update_interval: 30
+tinkeraccess_device_id: 999
+tinkeraccess_logout_coast_time: 7
+tinkeraccess_server_address: http://taccess-test:5000
 
