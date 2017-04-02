@@ -1,5 +1,14 @@
 # {{ ansible_managed }}
 [config]
-server_address: taccess-test:5000
-device_id: testpi
+log_level:{{ tinkeraccess_log_level }}
+
+reboot_on_error:{{ tinkeraccess_reboot_on_error }}
+reboot_delay:{{ tinkeraccess_reboot_delay }}
+
+auto_update:{{ tinkeraccess_auto_update }}
+auto_update_interval:{{ tinkeraccess_auto_update_interval }}
+
+device_id:{{ tinkeraccess_device_id }}
+logout_coast_time:{{ tinkeraccess_logout_coast_time }}
+server_address:{{ tinkeraccess_server_address }}
 
