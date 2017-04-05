@@ -1,2 +1,4 @@
 ---
 # defaults file for tinkerpi
+tinkerpi_wifi_disabled: true
+
