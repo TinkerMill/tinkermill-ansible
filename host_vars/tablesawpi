@@ -4,4 +4,5 @@ tinkeraccess_log_level: 10
 tinkeraccess_reboot_on_error: True
 tinkeraccess_auto_update_interval: 30
 tinkeraccess_server_address: http://taccess:5000
+tinkerpi_wifi_disabled: False
 
