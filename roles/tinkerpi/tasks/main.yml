@@ -26,6 +26,7 @@
     mode: 0644
     owner: root
     state: present
+  when: tinkerpi_wifi_disabled
   with_items:
     - brcmfmac
     - brcmutil
