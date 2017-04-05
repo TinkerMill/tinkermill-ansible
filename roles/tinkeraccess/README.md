@@ -19,7 +19,7 @@ git, service, shell, template
 | tinkeraccess_server | Name of tinkerAccess server service | tinkerserver |
 | tinkeraccess_log_level | Integer level of logging | 40 |
 | tinkeraccess_reboot_on_error | If True, reboot the supported RPi when any unhandled error is encountered | False |
-| tinkeraccess_reboot_delay | Integer number of seconds to wait before rebooting | 5 |
+| tinkeraccess_reboot_delay | Integer number of seconds to wait before rebooting | 300 |
 | tinkeraccess_auto_update | If True, update tinkerAccess automatically | False |
 | tinkeraccess_auto_update_interval | Integer number of minutes to wait betwen auto update checks | 5 |
 | tinkeraccess_device_id | Unique integer identifier for a client, as configure in the tinker-access-client | 0 |
