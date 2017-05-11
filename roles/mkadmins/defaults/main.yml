@@ -32,6 +32,11 @@ mkadmins_users:
     name: David Leonard
     shell: /bin/bash
     password: $6$rounds=656000$TRik3vdZOs9f2peU$xY530fUYbFkkl23WiupKkayrxQdQN6IhW4wirhzGVXlfGcvSBc8eZ/dZPsuLbcY6NukOHmugUfcZKMVv7IC85.
+  tritan67:
+    state: present
+    name: Tyler Dow
+    shell: /bin/bash
+    password: $6$rounds=656000$AXsbJVXyNzZidL9z$ZAopViGDWszd5BReyll6hViCEY71AQtYPI7Kq.jXuSUJLc/AM2Ix8Jd.JWyQ5aasLWGANYeMTMbgjjEh12f0H.
 mkadmins_rc_files:
   - name: kso
     group:
