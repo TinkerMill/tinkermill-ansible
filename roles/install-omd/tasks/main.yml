@@ -40,18 +40,18 @@
 
 # Run omd create:
 - name: Create OMD site
-  command: omd create {{ omd_site }}
+  command: omd create {{ install_omd_site }}
   args:
-    creates: /opt/omd/sites/{{ omd_site }}
+    creates: /opt/omd/sites/{{ install_omd_site }}
   tags:
     - install-omd
     - files
 
 # Run omd start:
 - name: Start OMD site
-  command: omd start {{ omd_site }}
+  command: omd start {{ install_omd_site }}
   args:
-    creates: /opt/omd/sites/{{ omd_site }}/tmp/apache/run/apache.pid
+    creates: /opt/omd/sites/{{ install_omd_site }}/tmp/apache/run/apache.pid
   tags:
     - install-omd
     - files
