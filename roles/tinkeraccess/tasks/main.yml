@@ -8,6 +8,7 @@
     clone: yes
     dest: "{{ tinkeraccess_repo_dest }}"
     repo: "{{ tinkeraccess_repo_source }}"
+  ignore_errors: yes
   tags:
     - tinkeraccess
     - files
