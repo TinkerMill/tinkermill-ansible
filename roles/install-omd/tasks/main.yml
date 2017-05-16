@@ -16,8 +16,8 @@
     owner: root 
     group: root 
     mode: 0755
-    url: https://mathias-kettner.de/support/1.2.8p13/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
-    dest: /opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+    url: "{{ install_omd_source_url }}"
+    dest: "{{ install_omd_deb }}"
   tags:
     - install-omd
     - files
@@ -25,7 +25,7 @@
 # Install .deb:
 - name: Install Check_MK RAW
   apt: 
-    deb: /opt/check-mk-raw-1.2.8p13_0.{{ ansible_distribution_release }}_amd64.deb
+    deb: "{{ install_omd_deb }}"
     state: present
   tags:
     - install-omd
