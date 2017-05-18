@@ -23,11 +23,11 @@
 
 # Copy Linux agent if Linux:
 - name: Copy Linux check_mk_agent to ~cmkagent and set executable
-  copy: 
+  template: 
     owner: cmkagent 
     group: cmkagent 
-    mode: 0700
-    src: check_mk_agent.linux
+    mode: 0755
+    src: check_mk_agent.linux.j2
     dest: /home/cmkagent/check_mk_agent
   when: ansible_system.find( 'Linux' ) == 0
   tags:
