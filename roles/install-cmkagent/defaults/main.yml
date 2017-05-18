@@ -13,4 +13,6 @@ local_checks:
 
 plugins:
   - mk_inventory
+  - lvm
+  - smart
 
