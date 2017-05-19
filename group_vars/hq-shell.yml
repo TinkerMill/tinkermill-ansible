@@ -3,3 +3,12 @@
 tarsnap_tarsnapper_conf: "tarsnapper.shell.conf"
 # Specify minute for tarsnap cron job:
 tarsnap_cron_minute: "40"
+mkadmins_rc_files:
+  - name: kso
+    group: hq-shell.
+    files:
+      - .bashrc
+      - .screenrc
+      - .screenrc_LOCAL
+      - .vimrc
+
