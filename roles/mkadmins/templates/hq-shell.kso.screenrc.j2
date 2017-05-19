@@ -1,0 +1,42 @@
+# {{ ansible_managed }}
+
+# KEY BINDINGS
+#escape ``
+bind B blanker
+bind R screen -t root sudo -i
+# BOOLEAN VARIABLES
+defutf8         on
+vbell           off
+nethack         on
+autodetach      on
+startup_message off
+hardcopy_append on
+# STRING VARIABLES
+shell       -$SHELL
+defhstatus  "screen: ^En (^Et)"
+caption     string "%{= dd}"
+hardstatus  alwayslastline "%{bk}[ %{Bk}%H %{bk}][ %{wk}%?%-Lw%?%{bk}(%{Yk}%n*%f %t%?(%u)%?%{bk})%{wk}%?%+Lw%?%?%= %{bk}][%{Gk} %Y-%m-%d %D %{Ck}%c:%s %{bk}]"
+sorendition gK
+# advertise hardstatus support to $TERMCAP
+termcapinfo  * '' 'hs:ts=\E_:fs=\E\\:ds=\E_\E\\'
+#xterm understands both im/ic and doesn't have a status line.
+#Note: Do not specify im and ic in the real termcap/info file as
+#some programs (e.g. vi) will not work anymore.
+termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+termcapinfo xterm* OL=100
+# tell screen that xterm can switch to dark background and has function
+# keys.
+termcapinfo xterm 'VR=\E[?5h:VN=\E[?5l'
+termcapinfo xterm 'k1=\E[11~:k2=\E[12~:k3=\E[13~:k4=\E[14~'
+termcapinfo xterm 'kh=\EOH:kI=\E[2~:kD=\E[3~:kH=\EOF:kP=\E[5~:kN=\E[6~'
+# special xterm hardstatus: use the window title.
+termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+# NUMERIC VARIABLES
+defscrollback 20000
+nonblock      5
+# INITIAL SCREENS
+screen -t HAIL 0 bash
+screen 1 bash
+screen -h 0 -t GOLEM 9 screen -A -O -U -D -RR mine -h 20000 -c ~/.screenrc_LOCAL
+
