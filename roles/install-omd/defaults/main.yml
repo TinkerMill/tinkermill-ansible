@@ -1,6 +1,7 @@
 ---
 # defaults file for install-omd
-install_omd_version: 1.2.8p21
+install_omd_version: 1.2.8p23
 install_omd_source_url: https://mathias-kettner.de/support/{{ install_omd_version }}/check-mk-raw-{{ install_omd_version }}_0.{{ ansible_distribution_release }}_amd64.deb
 install_omd_deb: /opt/check-mk-raw-{{ install_omd_version }}_0.{{ ansible_distribution_release }}_amd64.deb
-install_omd_site: hq
+install_omd_site: test
+
