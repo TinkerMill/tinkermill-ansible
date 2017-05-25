@@ -1,4 +1,4 @@
 # {{ ansible_managed }}
 
-cmkagent ALL = NOPASSWD: /home/cmkagent/check_mk_agent
-Defaults:cmkagent !requiretty
+{{ install_cmkagent_user }} ALL = NOPASSWD: {{ install_cmkagent_home }}/check_mk_agent
+Defaults:{{ install_cmkagent_user }} !requiretty

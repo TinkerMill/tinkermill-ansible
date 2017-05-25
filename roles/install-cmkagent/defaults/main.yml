@@ -1,6 +1,9 @@
 ---
 # defaults file for install-cmkagent
 
+install_cmkagent_user: cmkagent
+install_cmkagent_home: "/home/{{ install_cmkagent_user }}"
+
 install_cmkagent_count_users_warn: 10
 install_cmkagent_count_users_crit: 15
 

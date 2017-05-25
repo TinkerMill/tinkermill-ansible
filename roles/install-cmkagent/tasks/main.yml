@@ -2,33 +2,33 @@
 # tasks file for install-cmkagent
 
 # Create required group:
-- name: Create monitoring group - cmkagent
+- name: Create monitoring group
   group: 
-    name: cmkagent 
+    name: "{{ install_cmkagent_user }}" 
     state: present
   tags:
     - install-cmkagent
     - users
 
 # Create required user:
-- name: Create monitoring user - cmkagent
+- name: Create monitoring user
   user: 
-    name: cmkagent 
-    group: cmkagent 
-    home: /home/cmkagent
+    name: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
+    home: "{{ install_cmkagent_home }}"
     comment: "Check_MK Agent"
   tags:
     - install-cmkagent
     - users
 
 # Copy Linux agent if Linux:
-- name: Copy Linux check_mk_agent to ~cmkagent and set executable
+- name: Copy Linux check_mk_agent and set executable
   template: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0755
     src: check_mk_agent.linux.j2
-    dest: /home/cmkagent/check_mk_agent
+    dest: "{{ install_cmkagent_home }}/check_mk_agent"
   when: ansible_system.find( 'Linux' ) == 0
   tags:
     - install-cmkagent
@@ -49,12 +49,12 @@
     - users
 
 # Make .ssh directory:
-- name: Create directory - ~cmkagent/.ssh
+- name: Create directory - .ssh
   file: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0700
-    path: /home/cmkagent/.ssh
+    path: "{{ install_cmkagent_home }}/.ssh"
     state: directory
   tags:
     - install-cmkagent
@@ -62,25 +62,25 @@
     - users
 
 # Copy SSH key:
-- name: Copy public key to ~cmkagent/.ssh/authorized_keys
+- name: Copy public key to .ssh/authorized_keys
   template: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0600
     src: authorized_keys.j2
-    dest: /home/cmkagent/.ssh/authorized_keys
+    dest: "{{ install_cmkagent_home }}/.ssh/authorized_keys"
   tags:
     - install-cmkagent
     - files
     - users
 
 # Make local directory:
-- name: Create directory - ~cmkagent/local
+- name: Create directory - local
   file: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0700
-    path: /home/cmkagent/local
+    path: "{{ install_cmkagent_home }}/local"
     state: directory
   tags:
     - install-cmkagent
@@ -89,23 +89,23 @@
 # Copy over any local checks:
 - name: Generate local checks
   template: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0700
     src: "{{ item }}.j2"
-    dest: "/home/cmkagent/local/{{ item }}"
+    dest: "{{ install_cmkagent_home }}/local/{{ item }}"
   with_items: install_cmkagent_local_checks
   tags:
     - install-cmkagent
     - files
 
 # Make plugins directory:
-- name: Create directory - ~cmkagent/plugins
+- name: Create directory - plugins
   file: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0700
-    path: /home/cmkagent/plugins
+    path: "{{ install_cmkagent_home }}/plugins"
     state: directory
   tags:
     - install-cmkagent
@@ -114,35 +114,35 @@
 # Copy over any plugins:
 - name: Generate plugins
   template: 
-    owner: cmkagent
-    group: cmkagent
+    owner: "{{ install_cmkagent_user }}"
+    group: "{{ install_cmkagent_user }}"
     mode: 0700
     src: "{{ item }}.j2"
-    dest: "/home/cmkagent/plugins/{{ item }}"
+    dest: "{{ install_cmkagent_home }}/plugins/{{ item }}"
   with_items: install_cmkagent_plugins
   tags:
     - install-cmkagent
     - files
 
 # Make spool directory:
-- name: Create directory - ~cmkagent/spool
+- name: Create directory - spool
   file: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0700
-    path: /home/cmkagent/spool
+    path: "{{ install_cmkagent_home }}/spool"
     state: directory
   tags:
     - install-cmkagent
     - files
 
 # Make cache directory:
-- name: Create directory - ~cmkagent/cache
+- name: Create directory - cache
   file: 
-    owner: cmkagent 
-    group: cmkagent 
+    owner: "{{ install_cmkagent_user }}" 
+    group: "{{ install_cmkagent_user }}" 
     mode: 0700
-    path: /home/cmkagent/cache
+    path: "{{ install_cmkagent_home }}/cache"
     state: directory
   tags:
     - install-cmkagent
