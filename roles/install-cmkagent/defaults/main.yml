@@ -1,17 +1,17 @@
 ---
 # defaults file for install-cmkagent
 
-count_users_warn: 10
-count_users_crit: 15
+install_cmkagent_count_users_warn: 10
+install_cmkagent_count_users_crit: 15
 
-count_zombie_procs_warn: 5
-count_zombie_procs_crit: 10
+install_cmkagent_count_zombie_procs_warn: 5
+install_cmkagent_count_zombie_procs_crit: 10
 
-local_checks:
+install_cmkagent_local_checks:
   - count_users
   - count_zombie_procs
 
-plugins:
+install_cmkagent_plugins:
   - mk_inventory
   - lvm
   - smart

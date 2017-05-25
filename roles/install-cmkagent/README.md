@@ -13,12 +13,12 @@ Requires sudo on the remote server.
 
 | Variable | Description | Default Value |
 | -------- | ----------- | ------------- |
-| count_users_warn | Logged in users, warning threshold | 10 |
-| count_users_crit | Logged in users, critical threshold | 15 |
-| count_zombie_procs_warn | Zombie processes, warning threshold | 5 |
-| count_zombie_procs_crit | Zombie processes, critical threshold | 10 |
-| local_checks | List of active local checks | count_users, count_zombie_procs |
-| plugins | List of active plugins | mk_inventory |
+| install_cmkagent_count_users_warn | Logged in users, warning threshold | 10 |
+| install_cmkagent_count_users_crit | Logged in users, critical threshold | 15 |
+| install_cmkagent_count_zombie_procs_warn | Zombie processes, warning threshold | 5 |
+| install_cmkagent_count_zombie_procs_crit | Zombie processes, critical threshold | 10 |
+| install_cmkagent_local_checks | List of active local checks | count_users, count_zombie_procs |
+| install_cmkagent_plugins | List of active plugins | mk_inventory |
 
 ## Dependencies
 
@@ -30,7 +30,7 @@ Simple example with one override:
 
     - hosts: servers
       roles:
-         - { role: install-cmkagent, count_users_warn: 20, count_zombie_procs_crit: 30 }
+         - { role: install-cmkagent, install_cmkagent_count_users_warn: 20, install_cmkagent_count_zombie_procs_crit: 30 }
 
 ## License
 

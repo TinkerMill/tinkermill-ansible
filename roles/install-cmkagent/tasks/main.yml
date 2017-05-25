@@ -94,7 +94,7 @@
     mode: 0700
     src: "{{ item }}.j2"
     dest: "/home/cmkagent/local/{{ item }}"
-  with_items: local_checks
+  with_items: install_cmkagent_local_checks
   tags:
     - install-cmkagent
     - files
@@ -119,7 +119,7 @@
     mode: 0700
     src: "{{ item }}.j2"
     dest: "/home/cmkagent/plugins/{{ item }}"
-  with_items: plugins
+  with_items: install_cmkagent_plugins
   tags:
     - install-cmkagent
     - files
