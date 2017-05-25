@@ -34,6 +34,8 @@
 # Run omd setup:
 - name: Setup OMD
   command: omd setup
+  args:
+    creates: /opt/omd
   tags:
     - install-omd
     - packages
