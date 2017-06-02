@@ -76,6 +76,16 @@ if type timeout >/dev/null 2>&1 ; then
     export -f waitmax
 fi
 
+if [ -f $MK_CONFDIR/encryption.cfg ] ; then
+    source $MK_CONFDIR/encryption.cfg
+fi
+
+if [ "$ENCRYPTED" == "yes" ] ; then
+    echo -n "00" # protocol version
+    exec > >(openssl enc -aes-256-cbc -k $PASSPHRASE -nosalt)
+fi
+
+
 #
 # CHECK SECTIONS
 #
@@ -124,15 +134,21 @@ function run_cached () {
     local NOW=$(date +%s)
     local section=
     local mrpe=0
+    local append_age=0
     if [ "$1" = -s ] ; then local section="echo '<<<$2:cached($NOW,$3)>>>' ; " ; shift ; fi
     if [ "$1" = -m ] ; then local mrpe=1 ; shift ; fi
+    if [ "$1" = -a ] ; then local append_age=1 ; shift ; fi
     local NAME=$1
     local MAXAGE=$2
     shift 2
     local CMDLINE="$section$@"
 
     if [ ! -d $MK_VARDIR/cache ]; then mkdir -p $MK_VARDIR/cache ; fi
-    CACHEFILE="$MK_VARDIR/cache/$NAME.cache"
+    if [ "$mrpe" = 1 ] ; then
+        CACHEFILE="$MK_VARDIR/cache/mrpe_$NAME.cache"
+    else
+        CACHEFILE="$MK_VARDIR/cache/$NAME.cache"
+    fi
 
     # Check if the creation of the cache takes suspiciously long and kill the
     # process if the age (access time) of $CACHEFILE.new is twice the MAXAGE.
@@ -148,17 +164,27 @@ function run_cached () {
         fi
     fi
 
+
     # Check if cache file exists and is recent enough
     if [ -s "$CACHEFILE" ] ; then
         local MTIME=$(stat -c %Y "$CACHEFILE")
-        if [ $((NOW - MTIME)) -le $MAXAGE ] ; then local USE_CACHEFILE=1 ; fi
+        local AGE=$((NOW - MTIME))
+        if [ $AGE -le $MAXAGE ] ; then local USE_CACHEFILE=1 ; fi
         # Output the file in any case, even if it is
         # outdated. The new file will not yet be available
-        cat "$CACHEFILE"
+        if [ $append_age -eq 1 ] ; then
+            # insert the cached-string before the pipe (first -e)
+            # or, if no pipe found (-e t) append it (third -e),
+            # but only once and on the second line (2!b) (first line is section header,
+            # all further lines are long output)
+            cat "$CACHEFILE" | sed -e "2s/|/ (Cached: ${AGE}\/${MAXAGE}s)|/" -e t -e "2s/$/ (Cached: ${AGE}\/${MAXAGE}s)/"
+        else
+            cat "$CACHEFILE"
+        fi
     fi
 
     # Cache file outdated and new job not yet running? Start it
-    if [ -z "$USE_CACHEFILE" -a ! -e "$CACHEFILE.new" ] ; then
+    if [ -z "$USE_CACHEFILE" ] && [ ! -e "$CACHEFILE.new" ] ; then
         # When the command fails, the output is throws away ignored
         if [ $mrpe -eq 1 ] ; then
             echo "set -o noclobber ; exec > \"$CACHEFILE.new\" || exit 1 ; run_mrpe $NAME $CMDLINE && mv \"$CACHEFILE.new\" \"$CACHEFILE\" || rm -f \"$CACHEFILE\" \"$CACHEFILE.new\"" | nohup /bin/bash >/dev/null 2>&1 &
@@ -181,6 +207,11 @@ function run_real_time_checks()
 
     . $MK_CONFDIR/real_time_checks.cfg
 
+    if [ "$PASSPHRASE" != "" ] ; then
+        # new mechanism to set the passphrase has priority
+        RTC_SECRET=$PASSPHRASE
+    fi
+
     while true; do
         # terminate when pidfile is gone or other Real-Time Check process started or configured timeout
         if [ ! -e $PIDFILE ] || [ $(<$PIDFILE) -ne $$ ] || [ $RTC_TIMEOUT -eq 0 ]; then
@@ -188,13 +219,22 @@ function run_real_time_checks()
         fi
 
         for SECTION in $RTC_SECTIONS; do
+            if [ "$ENCRYPTED_RT" != "no" ] ; then
+                PROTOCOL=00
+            else
+                PROTOCOL=99
+            fi
             # Be aware of maximum packet size. Maybe we need to check the size of the section
             # output and do some kind of nicer error handling.
             # 2 bytes: protocol version, 10 bytes: timestamp, rest: encrypted data
             # dd is used to concatenate the output of all commands to a single write/block => udp packet
-            { echo -n 00 ;
+            { echo -n $PROTOCOL ;
               date +%s | tr -d '\n' ;
-              export RTC_SECRET=$RTC_SECRET ; section_$SECTION | openssl enc -aes-256-cbc -pass env:RTC_SECRET -nosalt ;
+              if [ "$ENCRYPTED_RT" != "no" ] ; then
+                  export RTC_SECRET=$RTC_SECRET ; section_$SECTION | openssl enc -aes-256-cbc -pass env:RTC_SECRET -nosalt ;
+              else
+                  section_$SECTION ;
+              fi
             } | dd bs=9999 iflag=fullblock 2>/dev/null >/dev/udp/$REMOTE/$RTC_PORT
         done
 
@@ -204,7 +244,7 @@ function run_real_time_checks()
 }
 
 echo '<<<check_mk>>>'
-echo Version: 1.2.8p23
+echo Version: 1.4.0
 echo AgentOS: linux
 echo Hostname: $HOSTNAME
 echo AgentDirectory: $MK_CONFDIR
@@ -367,7 +407,7 @@ fi
 # Performancecounter Platten
 echo '<<<diskstat>>>'
 date +%s
-egrep ' (x?[shv]d[a-z]*|cciss/c[0-9]+d[0-9]+|emcpower[a-z]+|dm-[0-9]+|VxVM.*|mmcblk.*|dasd[a-z]*) ' < /proc/diskstats
+egrep ' (x?[shv]d[a-z]*|cciss/c[0-9]+d[0-9]+|emcpower[a-z]+|dm-[0-9]+|VxVM.*|mmcblk.*|dasd[a-z]*|bcache[0-9]+|nvme[0-9]+n[0-9]+) ' < /proc/diskstats
 if type dmsetup >/dev/null ; then
     echo '[dmsetup_info]'
     dmsetup info -c --noheadings --separator ' ' -o name,devno,vg_name,lv_name
@@ -386,7 +426,8 @@ cat /proc/vmstat /proc/stat
 # Hardware sensors via IPMI (need ipmitool)
 if type ipmitool > /dev/null
 then
-    run_cached -s ipmi 300 "waitmax 300 ipmitool sensor list | grep -v 'command failed' | sed -e 's/ *| */|/g' -e 's/ /_/g' -e 's/_*"'$'"//' -e 's/|/ /g' | egrep -v '^[^ ]+ na ' | grep -v ' discrete '"
+    run_cached -s "ipmi:sep(124)" 300 "waitmax 300 ipmitool sensor list | grep -v 'command failed' | egrep -v '^[^ ]+ na ' | grep -v ' discrete '"
+    # readable discrete sensor states
     run_cached -s "ipmi_discrete:sep(124)" 300 "waitmax 300 ipmitool sdr elist compact"
 fi
 
@@ -595,11 +636,13 @@ fi
 
 # Postfix mailqueue monitoring
 # Determine the number of mails and their size in several postfix mail queues
-if type postconf >/dev/null ; then
-    postfix_queue_dir=$(postconf -h queue_directory 2>/dev/null)
-
+function read_postfix_queue_dirs {
+    postfix_queue_dir=$1
     if [ -n "$postfix_queue_dir" ]; then
         echo '<<<postfix_mailq>>>'
+        if [ ! -z "$2" ]; then
+            echo "[[[${2}]]]"
+        fi
         for queue in deferred active
         do
             count=$(find $postfix_queue_dir/$queue -type f | wc -l)
@@ -607,12 +650,57 @@ if type postconf >/dev/null ; then
             if [ -z "$size" ]; then
                 size=0
             fi
-            echo "QUEUE_${queue} $size $count"
+            if [ -z "$count" ]; then
+                echo "Mail queue is empty"
+            else
+                echo "QUEUE_${queue} $size $count"
+            fi
         done
     fi
+}
+
+# Postfix mailqueue monitoring
+# Determine the number of mails and their size in several postfix mail queues
+if type postconf >/dev/null ; then
+    # Check if multi_instance_directories exists in main.cf and is not empty
+    # always takes the last entry, multiple entries possible
+    multi_instances_dirs=$(postconf -c /etc/postfix 2>/dev/null | grep ^multi_instance_directories | sed 's/.*=[[:space:]]*//g')
+    if [ ! -z "$multi_instances_dirs" ]; then
+        for queue_dir in $multi_instances_dirs
+        do
+            if [ -n "$queue_dir" ]; then
+                postfix_queue_dir=$(postconf -c $queue_dir 2>/dev/null | grep ^queue_directory | sed 's/.*=[[:space:]]*//g')
+                read_postfix_queue_dirs $postfix_queue_dir $queue_dir
+            fi
+        done
+
+    else
+        postfix_queue_dir=$(postconf -h queue_directory 2>/dev/null)
+        read_postfix_queue_dirs $postfix_queue_dir
+    fi
+
 elif [ -x /usr/sbin/ssmtp ] ; then
     echo '<<<postfix_mailq>>>'
     mailq 2>&1 | sed 's/^[^:]*: \(.*\)/\1/' | tail -n 6
+
+fi
+
+# Postfix status monitoring. Can handle multiple instances.
+if type postfix >/dev/null ; then
+    echo "<<<postfix_mailq_status:sep(58)>>>"
+    for i in $(ls -d /var/spool/postfix*)
+        do
+            if [ -e "$i/pid/master.pid" ]; then
+                postfix_pid=$(cat $i/pid/master.pid | sed 's/ //g') # handle possible spaces in output
+                if readlink -- "/proc/$postfix_pid/exe" | grep -q ".*postfix/\(sbin/\)\?master.*"; then
+                    echo "$i:the Postfix mail system is running:PID:$postfix_pid" | sed 's/\/var\/spool\///g'
+                else
+                    echo "$i:PID file exists but instance is not running!" | sed 's/\/var\/spool\///g'
+                fi
+            else
+                echo "$i:the Postfix mail system is not running" | sed 's/\/var\/spool\///g'
+            fi
+        done
 fi
 
 # Check status of qmail mailqueue
@@ -687,10 +775,13 @@ if [ -r "$MK_CONFDIR/fileinfo.cfg" ] ; then
     date +%s
     for line in $(cat "$MK_CONFDIR/fileinfo.cfg")
     do
-        stat -c "%n|%s|%Y" "${line}" 2>/dev/null
+        # only work on lines containing files, skip e.g. comments and blank lines
+        if [ ${line:0:1} = "/" ]; then
+            stat -c "%n|%s|%Y" "${line}" 2>/dev/null
 
-        if [ $? -ne 0 ]; then
-            echo "$line|missing|$(date +%s)"
+            if [ $? -ne 0 ]; then
+                echo "$line|missing|$(date +%s)"
+            fi
         fi
     done
 fi
@@ -705,7 +796,50 @@ then
     do
         if [ -S "/omd/sites/$site/tmp/run/live" ] ; then
             echo "[$site]"
-            echo -e "GET status" | waitmax 3 /omd/sites/$site/bin/unixcat /omd/sites/$site/tmp/run/live
+            echo -e "GET status" | \
+                waitmax 3 /omd/sites/$site/bin/unixcat /omd/sites/$site/tmp/run/live
+        fi
+    done
+    echo '<<<mkeventd_status:sep(0)>>>'
+    for site in *
+    do
+        if [ -S "/omd/sites/$site/tmp/run/mkeventd/status" ] ; then
+            echo "[\"$site\"]"
+            echo -e "GET status\nOutputFormat: json" \
+                | waitmax 3 /omd/sites/$site/bin/unixcat /omd/sites/$site/tmp/run/mkeventd/status
+        fi
+    done
+fi
+
+# Collect states of configured Check_MK site backup jobs
+if ls /omd/sites/*/var/check_mk/backup/*.state >/dev/null 2>&1; then
+    echo "<<<mkbackup>>>"
+    for F in /omd/sites/*/var/check_mk/backup/*.state; do
+        SITE=${F#/*/*/*}
+        SITE=${SITE%%/*}
+
+        JOB_IDENT=${F%.state}
+        JOB_IDENT=${JOB_IDENT##*/}
+
+        if [ "$JOB_IDENT" != "restore" ]; then
+            echo "[[[site:$SITE:$JOB_IDENT]]]"
+            cat $F
+            echo
+        fi
+    done
+fi
+
+# Collect states of configured CMA backup jobs
+if type mkbackup >/dev/null && ls /var/lib/mkbackup/*.state >/dev/null 2>&1; then
+    echo "<<<mkbackup>>>"
+    for F in /var/lib/mkbackup/*.state; do
+        JOB_IDENT=${F%.state}
+        JOB_IDENT=${JOB_IDENT##*/}
+
+        if [ "$JOB_IDENT" != "restore" ]; then
+            echo "[[[system:$JOB_IDENT]]]"
+            cat $F
+            echo
         fi
     done
 fi
@@ -748,6 +882,20 @@ if type trd >/dev/null; then
    trd -s
 fi
 
+# HTTP Accelerator Statistics
+if type varnishstat >/dev/null; then
+   echo "<<<varnish>>>"
+   varnishstat -1
+fi
+
+# Proxmox Cluster
+if type pvecm > /dev/null 2>&1 ; then
+    echo "<<<pvecm_status:sep(58)>>>"
+    pvecm status
+    echo "<<<pvecm_nodes>>>"
+    pvecm nodes
+fi
+
 # Start new liveupdate process in background on each agent execution. Starting
 # a new live update process will terminate the old one automatically after
 # max. 1 sec.
@@ -768,6 +916,7 @@ then
     while read descr cmdline
     do
         interval=
+        args="-m"
         # NOTE: Due to an escaping-related bug in some old bash versions
         # (3.2.x), we have to use an intermediate variable for the pattern.
         pattern='\(([^\)]*)\)[[:space:]](.*)'
@@ -777,17 +926,16 @@ then
             cmdline=${BASH_REMATCH[2]}
 
             # split multiple parameter assignments
-            IFS=':' read -a parlist <<< $parameters
-            for par in "${parlist[@]}"
+            for par in $(echo $parameters | tr ":" "\n")
             do
                 # split each assignment
                 key=$(echo $par | cut -d= -f1)
                 value=$(echo $par | cut -d= -f2)
 
-                if [ "$key" = "interval" ]
-                then
+                if [ "$key" = "interval" ] ; then
                     interval=$value
-                # no other parameters supported currently
+                elif [ "$key" = "appendage" ] ; then
+                    args="$args -a"
                 fi
             done
         fi
@@ -796,7 +944,7 @@ then
         then
             run_mrpe $descr "$cmdline"
         else
-            run_cached -m $descr $interval "$cmdline"
+            run_cached $args $descr $interval "$cmdline"
         fi
     done
 fi
@@ -829,8 +977,7 @@ then
                         cmdline=${BASH_REMATCH[2]}
 
                         # split multiple parameter assignments
-                        IFS=':' read -a parlist <<< $parameters
-                        for par in "${parlist[@]}"
+                        for par in $(echo $parameters | tr ":" "\n")
                         do
                             # split each assignment
                             IFS='=' read key value <<< $par
@@ -922,6 +1069,7 @@ then
 
     for file in *
     do
+        test "$file" = "*" && break
         # output every file in this directory. If the file is prefixed
         # with a number, then that number is the maximum age of the
         # file in seconds. If the file is older than that, it is ignored.
