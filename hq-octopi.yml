@@ -1,0 +1,8 @@
+---
+# Octopi server
+- name: hq-octopi
+  hosts: hq-octopi
+  become: yes
+  roles:
+    - tinkerpi
+
