@@ -58,3 +58,13 @@
     - install-omd
     - files
 
+# Place slack notification script:
+- name: Place slack notification script
+  get_url:
+    dest: /opt/omd/sites/{{ install_omd_site }}/local/share/check_mk/notifications
+    url: https://github.com/rmblake/check_mk-slack/raw/master/slack
+    mode: 0755
+  tags:
+    - install-omd
+    - files
+
