@@ -11,7 +11,7 @@ apt, command, get_url
 
 | Variable | Description | Default Value |
 | -------- | ----------- | ------------- |
-| install_omd_version | Version of Check_MK RAW Edition to install | `1.4.0p5` |
+| install_omd_version | Version of Check_MK RAW Edition to install | `1.4.0p8` |
 | install_omd_source_url | URL of source package | `https://mathias-kettner.de/support/{{ install_omd_version }}/check-mk-raw-{{ install_omd_version }}_0.{{ ansible_distribution_release }}_amd64.deb` |
 | install_omd_deb | Absolute path of downloaded source package | `/opt/check-mk-raw-{{ install_omd_version }}_0.{{ ansible_distribution_release }}_amd64.deb` |
 | install_omd_site | Name of Check_MK RAW Edition 'site' to provision | `test` |
