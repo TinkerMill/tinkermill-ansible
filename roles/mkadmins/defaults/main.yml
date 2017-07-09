@@ -27,11 +27,6 @@ mkadmins_users:
     name: Bruce Welker
     shell: /bin/bash
     password: $6$rounds=656000$fbRi7GZJgYcNb.gD$zjFPTdh9/8RGKMDsjuHQLpmv7..G7ZB9O1mlyJztxbVWtTJWwfHBcNWG.f.BbkyRIo2kjEeGBY/pqKtbAZ.vV0
-  david:
-    state: present
-    name: David Leonard
-    shell: /bin/bash
-    password: $6$rounds=656000$TRik3vdZOs9f2peU$xY530fUYbFkkl23WiupKkayrxQdQN6IhW4wirhzGVXlfGcvSBc8eZ/dZPsuLbcY6NukOHmugUfcZKMVv7IC85.
   tritan67:
     state: present
     name: Tyler Dow
