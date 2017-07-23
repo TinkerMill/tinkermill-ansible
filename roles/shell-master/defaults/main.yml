@@ -1,2 +1,12 @@
 ---
 # defaults file for shell-master
+
+shell_master_install_packages_apt:
+  - git
+  - python-pip
+  - screen
+  - sshpass
+shell_master_install_packages_pip:
+  - ansible
+  - pywinrm[credssp]
+
