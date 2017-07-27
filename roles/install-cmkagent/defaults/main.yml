@@ -19,3 +19,9 @@ install_cmkagent_plugins:
   - lvm
   - smart
 
+install_cmkagent_win_tmp: c:\check_mk_agent.msi
+install_cmkagent_win_filename: check_mk_agent.msi
+install_cmkagent_win_folder: C:\Program Files (x86)\check_mk\
+install_cmkagent_win_plugins:
+  - mk_inventory.vbs
+
