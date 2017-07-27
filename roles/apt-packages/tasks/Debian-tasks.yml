@@ -1,0 +1,14 @@
+---
+# tasks file for apt-packages (Debian only)
+
+# Install defined packages:
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    cache_valid_time: 3600
+  with_items: "{{ apt_packages }}"
+  tags:
+    - apt-packages
+    - packages
+
