@@ -1,0 +1,18 @@
+---
+# tasks file for mkadmins (Windows only)
+
+# Create users:
+- name: Create users
+  win_user: 
+    name: "{{ item.key }}"
+    state: "{{ item.value.state }}"
+    groups: Administrators
+    fullname: "{{ item.value.name }}"
+    update_password: on_create
+    password_never_expires: yes
+    password: 1stPassword!
+  with_dict: "{{ mkadmins_users }}"
+  tags:
+    - mkadmins
+    - users
+
