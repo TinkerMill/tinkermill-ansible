@@ -1,0 +1,71 @@
+---
+# tasks file for updates (Debian only)
+
+# Check to see if proxy is up:
+- name: See if PFSense Proxy is available
+  wait_for:
+    host: "{{ pfsense_proxy_host }}"
+    port: "{{ pfsense_proxy_port }}"
+    state: started
+    timeout: 5
+  ignore_errors: yes
+  register: pfsense_proxy_status
+  tags:
+    - updates
+    - files
+
+# Debug variables:
+#- name: Debug pfsense_proxy_status
+#  debug:
+#    var: pfsense_proxy_status
+#  tags:
+#    - updates
+#    - files
+
+# Configure apt proxy if up:
+- name: Point APT to PFSense Proxy
+  lineinfile: 
+    create: yes
+    dest: /etc/apt/apt.conf
+    group: root
+    line: Acquire::http::Proxy "http://{{ pfsense_proxy_host }}:{{ pfsense_proxy_port }}";
+    mode: 0644
+    owner: root
+    state: present
+  when: pfsense_proxy_status.failed is not defined
+  tags:
+    - updates
+    - files  
+
+# Remove apt proxy configuration if down:
+- name: Point APT away from PFSense Proxy
+  lineinfile:
+    create: no
+    dest: /etc/apt/apt.conf
+    group: root
+    line: Acquire::http::Proxy "http://{{ pfsense_proxy_host }}:{{ pfsense_proxy_port }}";
+    mode: 0644
+    owner: root
+    state: absent
+  when: pfsense_proxy_status.failed is defined
+  tags:
+    - updates
+    - files
+
+# Update apt cache:
+- name: Update APT cache
+  apt: 
+    cache_valid_time: 3600
+    update_cache: yes
+  tags:
+    - updates
+    - packages
+
+# Apply updates:
+- name: Apply available updates
+  apt: 
+    cache_valid_time: 3600
+    upgrade: full
+  tags:
+    - updates
+    - packages

@@ -1,0 +1,10 @@
+---
+# tasks file for updates (Windows only)
+
+# Apply updates:
+- name: Apply available updates
+  win_updates: 
+    state: installed
+  tags:
+    - updates
+    - packages
