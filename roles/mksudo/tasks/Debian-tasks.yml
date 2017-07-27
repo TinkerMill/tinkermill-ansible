@@ -1,0 +1,25 @@
+---
+# tasks file for mksudo (Debian only)
+
+# Copy sudoers.d file to grant sudo, using with_first_found to allow
+#   for customization by host & distro; then validate the file:
+- name: Grant sudo for defined user(s)
+  template: 
+    owner: root 
+    group: root 
+    mode: 0440
+    src: "{{ item }}"
+    dest: "/etc/sudoers.d/99_ansible_mksudo"
+    validate: 'visudo -cf %s'
+  with_first_found:
+    - files:
+      # First try host-specific files:
+      - "{{ ansible_hostname }}.99_ansible_mksudo.j2"
+      # Then try distro-specific files:
+      - "{{ ansible_distribution }}{{ ansible_distribution_version }}.99_ansible_mksudo.j2"
+      # Finally, default to:
+      - "99_ansible_mksudo.j2"
+  tags:
+   - mksudo
+   - files
+
