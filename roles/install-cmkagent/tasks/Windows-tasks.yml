@@ -1,0 +1,44 @@
+---
+# tasks file for install-cmkagent (Windows only)
+
+# Copy agent installation file:
+- name: Copy agent installation file
+  win_copy:
+    dest: "{{ install_cmkagent_win_tmp }}"
+    src: "{{ install_cmkagent_win_filename }}"
+  tags:
+    - install-cmkagent
+    - files
+
+# Install agent:
+- name: Install agent
+  win_msi:
+    path: "{{ install_cmkagent_win_tmp }}"
+    state: present
+    wait: True
+    creates: "{{ install_cmkagent_win_folder }}check_mk_agent.exe"
+  tags:
+    - install-cmkagent
+    - files
+
+# Generate configuration file from template
+- name: Generate configuration file from template
+  win_template: 
+    src: check_mk.ini.j2
+    dest: "{{ install_cmkagent_win_folder }}check_mk.ini"
+  notify: Restart Windows agent service
+  tags:
+    - install-cmkagent
+    - files
+
+## Copy over any plugins:
+- name: Generate plugins
+  win_template: 
+    src: "{{ item }}.j2"
+    dest: "{{ install_cmkagent_win_folder }}plugins\\{{ item }}"
+  with_items: "{{ install_cmkagent_win_plugins }}"
+  notify: Restart Windows agent service
+  tags:
+    - install-cmkagent
+    - files
+
