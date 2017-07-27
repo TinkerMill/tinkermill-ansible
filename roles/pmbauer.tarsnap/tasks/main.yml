@@ -1,1 +1,6 @@
-- include: tarsnap.yml tags=tarsnap
+- include: "{{ ansible_os_family }}-tarsnap.yml"
+  static: no
+  tags:
+    - tarsnap
+
+
