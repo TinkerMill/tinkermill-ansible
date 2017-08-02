@@ -4,4 +4,5 @@
   hosts: hq-omd
   become: yes
   roles:
-    - install-omd
+    - kso512.install-check_mk-server
+
