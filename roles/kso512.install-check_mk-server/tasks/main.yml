@@ -1,0 +1,52 @@
+---
+# tasks file for ansible-install-check_mk-server
+
+- name: Install pre-requisites
+  apt:
+    name: "{{ ansible_install_check_mk_server_prereqs }}"
+    state: present
+    update_cache: yes
+  tags:
+    - ansible-install-check_mk-server
+    - packaging
+
+- name: Install Check_MK RAW
+  apt:
+    deb: "{{ ansible_install_check_mk_server_source_url }}"
+    state: present
+  tags:
+    - ansible-install-check_mk-server
+    - packaging
+
+- name: Setup OMD
+  command: omd setup
+  args:
+    creates: /opt/omd  
+  tags:
+    - ansible-install-check_mk-server
+    - commands
+
+- name: Create OMD site
+  command: omd create {{ ansible_install_check_mk_server_site }}
+  args:
+    creates: /opt/omd/sites/{{ ansible_install_check_mk_server_site }}
+  tags:
+    - ansible-install-check_mk-server
+    - commands
+
+- name: Start OMD site
+  command: omd start {{ ansible_install_check_mk_server_site }}
+  args:
+    creates: /opt/omd/sites/{{ ansible_install_check_mk_server_site }}/tmp/apache/run/apache.pid
+  tags:
+    - ansible-install-check_mk-server
+    - commands
+
+- name: Start Apache2
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+  tags:
+    - ansible-install-check_mk-server
+    - services

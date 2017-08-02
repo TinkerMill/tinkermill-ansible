@@ -1,0 +1,31 @@
+galaxy_info:
+  author: Chris Lindbergh
+  description: A role to install Check_MK RAW and set up an initial site.
+  company: TinkerMill
+
+  license: BSD
+
+  min_ansible_version: 2.2
+
+  platforms:
+    - name: Debian
+      versions:
+        - stretch
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+
+  galaxy_tags:
+    - CheckMK
+    - check
+    - mk
+    - raw
+    - cre
+    - ubuntu
+    - debian
+    - stretch
+    - trusty
+    - xenial
+
+dependencies: []
