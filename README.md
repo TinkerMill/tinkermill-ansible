@@ -2,7 +2,7 @@
 
 ## Requirements to check-out and use this repository
 - Linux
-- Ansible 2.0.0.2+
+- Ansible 2.2+
 - Git 2.7.4+
 - sshpass 1.05
 - Access to the TinkerMill network, either local or VPN
@@ -51,7 +51,7 @@ All of the above Requirements are met on the shell server *GOLEM* a.k.a. *10.2.0
 - apt-packages: Install basic set of packages
 - fwd-syslog: Reconfigure "rsyslog" to send syslogs to *MARVIN*
 - install-cmkagent: Install the Check_MK agent
-- install-omd: Install OMD/Check_MK RAW
+- kso512.install-check_mk-server: (from Ansible Galaxy) Install Check_MK RAW
 - mkadmins: Set up important users and groups
 - mksudo: Set up sudo for important users
 - pmbauer.tarsnap: (from Ansible Galaxy) Install Tarsnap backup client
