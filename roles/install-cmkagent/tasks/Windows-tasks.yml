@@ -6,6 +6,7 @@
   win_copy:
     dest: "{{ install_cmkagent_win_tmp }}"
     src: "{{ install_cmkagent_win_filename }}"
+  register: copy_agent
   tags:
     - install-cmkagent
     - files
@@ -16,7 +17,7 @@
     path: "{{ install_cmkagent_win_tmp }}"
     state: present
     wait: True
-    creates: "{{ install_cmkagent_win_folder }}check_mk_agent.exe"
+  when: copy_agent.changed
   tags:
     - install-cmkagent
     - files
