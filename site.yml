@@ -24,4 +24,5 @@
 - include: hq-tinkeraccess-server.yml
 - include: hq-tinkeraccess-client.yml
 - include: hq-octopi.yml
+- include: hq-graylog.yml
 
