@@ -7,7 +7,7 @@
     - updates
     - mkadmins
     - mksudo
-    - install-cmkagent
+    - kso512.install-check_mk-client
     - apt-packages
 
 # Production-only roles:
