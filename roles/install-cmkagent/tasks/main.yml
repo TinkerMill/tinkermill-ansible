@@ -1,7 +1,0 @@
----
-# tasks file for install-cmkagent
-
-# Include OS-specific tasks:
-- include: "{{ ansible_os_family }}-tasks.yml"
-  static: no
-
