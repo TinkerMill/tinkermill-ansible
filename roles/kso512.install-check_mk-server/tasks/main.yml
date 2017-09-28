@@ -1,5 +1,5 @@
 ---
-# tasks file for ansible-install-check_mk-server
+# tasks file for install-check-mk-server
 
 - name: Set distro-specific variables
   include_vars:
@@ -8,57 +8,57 @@
     - "{{ ansible_distribution }}.yml"
     - "default.yml"
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - packages
     - files
     - users
 
 - name: Install pre-requisites (APT)
   apt:
-    name: "{{ ansible_install_check_mk_server_prereqs }}"
+    name: "{{ install_check_mk_server_prereqs }}"
     state: present
     update_cache: yes
   when: ansible_pkg_mgr == "apt"
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - packaging
 
 - name: Install pre-requisites (YUM)
   yum:
-    name: "{{ ansible_install_check_mk_server_prereqs }}"
+    name: "{{ install_check_mk_server_prereqs }}"
     state: present
     update_cache: yes
   when: ansible_pkg_mgr == "yum"
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - packaging
 
 - name: Download Check_MK RAW
   get_url:
     dest: /opt
     mode: 0755
-    url: "{{ ansible_install_check_mk_server_source_url }}"
+    url: "{{ install_check_mk_server_source_url }}"
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - packages
     - files
 
 - name: Install Check_MK RAW (APT)
   apt:
-    deb: "/opt/{{ ansible_install_check_mk_server_source }}"
+    deb: "/opt/{{ install_check_mk_server_source }}"
     state: present
   when: ansible_pkg_mgr == "apt"
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - packaging
 
 - name: Install Check_MK RAW (YUM)
   yum:
-    name: "/opt/{{ ansible_install_check_mk_server_source }}"
+    name: "/opt/{{ install_check_mk_server_source }}"
     state: present
   when: ansible_pkg_mgr == "yum"
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - packaging
 
 - name: Setup OMD
@@ -66,30 +66,30 @@
   args:
     creates: /opt/omd  
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - commands
 
 - name: Create OMD site
-  command: omd create {{ ansible_install_check_mk_server_site }}
+  command: omd create {{ install_check_mk_server_site }}
   args:
-    creates: /opt/omd/sites/{{ ansible_install_check_mk_server_site }}
+    creates: /opt/omd/sites/{{ install_check_mk_server_site }}
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - commands
 
 - name: Start OMD site
-  command: omd start {{ ansible_install_check_mk_server_site }}
+  command: omd start {{ install_check_mk_server_site }}
   args:
-    creates: /opt/omd/sites/{{ ansible_install_check_mk_server_site }}/tmp/apache/run/apache.pid
+    creates: /opt/omd/sites/{{ install_check_mk_server_site }}/tmp/apache/run/apache.pid
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - commands
 
 - name: Start Apache2
   service:
-    name: "{{ ansible_install_check_mk_server_web_service }}"
+    name: "{{ install_check_mk_server_web_service }}"
     state: started
     enabled: yes
   tags:
-    - ansible-install-check_mk-server
+    - install-check-mk-server
     - services
