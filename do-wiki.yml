@@ -1,0 +1,8 @@
+---
+# MediaWiki server on Digital Ocean
+- name: do-wiki
+  hosts: do-wiki
+  become: yes
+  roles:
+    - install-mediawiki
+
