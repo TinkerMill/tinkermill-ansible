@@ -4,6 +4,8 @@
 
 An [Ansible](https://www.ansible.com/) [Role](http://docs.ansible.com/ansible/playbooks_roles.html#roles) to install the agent/client for [Check_MK RAW](http://mathias-kettner.com/check_mk_introduction.html).
 
+All tasks are tagged with `install-check-mk-client`.
+
 This role utilizes SSH on Unix-type systems instead of the default port 6556.  This encrypts communications and avoids opening a new port for monitoring and setting up a new service.
 
 Tested with [Travis continuous integration](https://travis-ci.org/) on the following distributions:
@@ -25,6 +27,19 @@ The following operating systems are also supported and tested manually:
 
 ## Requirements
 
+Requirements on host that executes role:
+- groupadd
+- groupdel
+- groupmod
+
+Requirements on host that executes role with APT:
+- python-apt (python 2)
+- python3-apt (python 3)
+- aptitude (before 2.4)
+
+Requirements on host that executes role with YUM:
+- yum
+
 If the server is Windows and has a firewall enabled, it may need to be altered to allow incoming packets on TCP port 6556.
 
 ## Role Variables
@@ -42,10 +57,10 @@ If the server is Windows and has a firewall enabled, it may need to be altered t
 | install_check_mk_client_count_zombie_procs_crit | Zombie processes, critical threshold | `10` |
 | install_check_mk_client_freebsd_plugins | List of active FreeBSD plugins | `[]` |
 | install_check_mk_client_local_checks | List of active local checks | `count_users`, `count_zombie_procs` |
-| install_check_mk_client_plugins | List of active plugins | ` mk_inventory`, `lvm`, `smart` |
-| install_check_mk_client_win_tmp | Temporary location of Windows installation file | `c:\check_mk_agent.msi` |
+| install_check_mk_client_plugins | List of active Linux plugins | `mk_inventory.linux`, `lvm`, `smart` |
+| install_check_mk_client_win_tmp | Temporary location of Windows installation file | `"c:\{{ install_check_mk_client_win_filename }}"` |
 | install_check_mk_client_win_filename | Filename of Windows installation file | `check_mk_agent.msi` |
-| install_check_mk_client_win_config | Filename of Windows configuration template | `check_mk.ini.j2` |
+| install_check_mk_client_win_config | Filename of Windows configuration template | `check_mk.example.ini.j2` |
 | install_check_mk_client_win_folder | Folder the agent gets installed to | `C:\Program Files (x86)\check_mk\` |
 | install_check_mk_client_win_plugins | List of active Windows plugins | `mk_inventory.vbs` |
 

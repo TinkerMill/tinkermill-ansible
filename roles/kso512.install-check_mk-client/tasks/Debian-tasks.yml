@@ -1,118 +1,105 @@
 ---
 # tasks file for install-check_mk-client (Debian only)
 
-- name: Install pre-requisites
+- name: Install pre-requisites | APT
   apt:
     name: "{{ install_check_mk_client_prereqs }}"
     state: present
     update_cache: yes
   tags:
     - install-check-mk-client
-    - packaging
 
-- name: Create monitoring group
-  group: 
-    name: "{{ install_check_mk_client_user }}" 
+- name: Create monitoring group | GROUP
+  group:
+    name: "{{ install_check_mk_client_user }}"
     state: present
   tags:
     - install-check-mk-client
-    - users
 
-- name: Create monitoring user
-  user: 
-    name: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Create monitoring user | USER
+  user:
+    name: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     home: "{{ install_check_mk_client_home }}"
     comment: "Check_MK Agent"
   tags:
     - install-check-mk-client
-    - users
 
-- name: Copy Linux check_mk_agent and set executable
-  template: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Copy Linux check_mk_agent and set executable | TEMPLATE
+  template:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0755
     src: check_mk_agent.linux.j2
     dest: "{{ install_check_mk_client_home }}/check_mk_agent"
   when: ansible_system.find( 'Linux' ) == 0
   tags:
     - install-check-mk-client
-    - files
 
-- name: Grant sudo for check_mk_agent to monitoring user
-  template: 
-    owner: root 
-    group: root 
+- name: Grant sudo for check_mk_agent to monitoring user | TEMPLATE
+  template:
+    owner: root
+    group: root
     mode: 0440
     src: 99_cmkagent.j2
     dest: /etc/sudoers.d/99_cmkagent
     validate: 'visudo -cf %s'
   tags:
     - install-check-mk-client
-    - files
-    - users
 
-- name: Create directory - .ssh
-  file: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Create directory - .ssh | FILE
+  file:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0700
     path: "{{ install_check_mk_client_home }}/.ssh"
     state: directory
   tags:
     - install-check-mk-client
-    - files
-    - users
 
-- name: Copy public key to .ssh/authorized_keys
-  template: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Copy public key to .ssh/authorized_keys | TEMPLATE
+  template:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0600
     src: "{{ install_check_mk_client_authorized_keys }}"
     dest: "{{ install_check_mk_client_home }}/.ssh/authorized_keys"
   tags:
     - install-check-mk-client
-    - files
-    - users
 
-- name: Create directory - local
-  file: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Create directory - local | FILE
+  file:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0700
     path: "{{ install_check_mk_client_home }}/local"
     state: directory
   tags:
     - install-check-mk-client
-    - files
 
-- name: Generate local checks
-  template: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Generate local checks | TEMPLATE
+  template:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0700
     src: "{{ item }}.j2"
     dest: "{{ install_check_mk_client_home }}/local/{{ item }}"
   with_items: "{{ install_check_mk_client_local_checks }}"
   tags:
     - install-check-mk-client
-    - files
 
-- name: Create directory - plugins
-  file: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Create directory - plugins | FILE
+  file:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0700
     path: "{{ install_check_mk_client_home }}/plugins"
     state: directory
   tags:
     - install-check-mk-client
-    - files
 
-- name: Generate plugins
-  template: 
+- name: Generate plugins | TEMPLATE
+  template:
     owner: "{{ install_check_mk_client_user }}"
     group: "{{ install_check_mk_client_user }}"
     mode: 0700
@@ -121,27 +108,24 @@
   with_items: "{{ install_check_mk_client_plugins }}"
   tags:
     - install-check-mk-client
-    - files
 
-- name: Create directory - spool
-  file: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Create directory - spool | FILE
+  file:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0700
     path: "{{ install_check_mk_client_home }}/spool"
     state: directory
   tags:
     - install-check-mk-client
-    - files
 
-- name: Create directory - cache
-  file: 
-    owner: "{{ install_check_mk_client_user }}" 
-    group: "{{ install_check_mk_client_user }}" 
+- name: Create directory - cache | FILE
+  file:
+    owner: "{{ install_check_mk_client_user }}"
+    group: "{{ install_check_mk_client_user }}"
     mode: 0700
     path: "{{ install_check_mk_client_home }}/cache"
     state: directory
   tags:
     - install-check-mk-client
-    - files
 
