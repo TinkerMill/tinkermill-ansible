@@ -1,7 +1,7 @@
 ---
 # tasks file for install-check-mk-server
 
-- name: Set distro-specific variables
+- name: Set distro-specific variables | INCLUDE_VARS
   include_vars:
     file: "{{ item }}"
   with_first_found:
@@ -9,11 +9,8 @@
     - "default.yml"
   tags:
     - install-check-mk-server
-    - packages
-    - files
-    - users
 
-- name: Install pre-requisites (APT)
+- name: Install pre-requisites | APT
   apt:
     name: "{{ install_check_mk_server_prereqs }}"
     state: present
@@ -21,9 +18,8 @@
   when: ansible_pkg_mgr == "apt"
   tags:
     - install-check-mk-server
-    - packaging
 
-- name: Install pre-requisites (YUM)
+- name: Install pre-requisites | YUM
   yum:
     name: "{{ install_check_mk_server_prereqs }}"
     state: present
@@ -31,65 +27,57 @@
   when: ansible_pkg_mgr == "yum"
   tags:
     - install-check-mk-server
-    - packaging
 
-- name: Download Check_MK RAW
+- name: Download Check_MK RAW | GET_URL
   get_url:
     dest: /opt
     mode: 0755
     url: "{{ install_check_mk_server_source_url }}"
   tags:
     - install-check-mk-server
-    - packages
-    - files
 
-- name: Install Check_MK RAW (APT)
+- name: Install Check_MK RAW | APT
   apt:
     deb: "/opt/{{ install_check_mk_server_source }}"
     state: present
   when: ansible_pkg_mgr == "apt"
   tags:
     - install-check-mk-server
-    - packaging
 
-- name: Install Check_MK RAW (YUM)
+- name: Install Check_MK RAW | YUM
   yum:
     name: "/opt/{{ install_check_mk_server_source }}"
     state: present
   when: ansible_pkg_mgr == "yum"
   tags:
     - install-check-mk-server
-    - packaging
 
-- name: Setup OMD
+- name: Setup OMD | COMMAND
   command: omd setup
   args:
     creates: /opt/omd  
   tags:
     - install-check-mk-server
-    - commands
 
-- name: Create OMD site
+- name: Create OMD site | COMMAND
   command: omd create {{ install_check_mk_server_site }}
   args:
     creates: /opt/omd/sites/{{ install_check_mk_server_site }}
   tags:
     - install-check-mk-server
-    - commands
 
-- name: Start OMD site
+- name: Start OMD site | COMMAND
   command: omd start {{ install_check_mk_server_site }}
   args:
     creates: /opt/omd/sites/{{ install_check_mk_server_site }}/tmp/apache/run/apache.pid
   tags:
     - install-check-mk-server
-    - commands
 
-- name: Start Apache2
+- name: Start Apache2 | SERVICE
   service:
     name: "{{ install_check_mk_server_web_service }}"
     state: started
     enabled: yes
   tags:
     - install-check-mk-server
-    - services
+
